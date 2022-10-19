@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@{
+    Layout = Layout = "~/Views/Shared/_IndexLayout.cshtml";
+}
+<div id="hero">
+    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner ">
+            <div class="carousel-item active" style="background-image: url(../../Img/imagen-3.jpg)">
+                <div class="carousel-container">
+                    <div class="container">
+                        <h2 class="animate__animated animate__fadeInDown"><span>NaturalMend</span></h2>
+                        <p class="animate__animated animate__fadeInUp">Es un emprendimiento con la intención de producir alimentos saludables, naturales, no procesados para el consumo diario de las personas, con la idea de mejorar la calidad de vida de los consumidores.</p>
+                        <a onclick="showPrueba()" class="btn-get-started animate__animated animate__fadeInUp scrollto"><i class="fa fa-arrow-circle-down fa-2x"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" style=" background-image: url(../../Images/índice.jpg)">
+                <div class="carousel-container">
+                    <div class="container">
+                        <h2 class="animate__animated animate__fadeInDown"><span>¿Buscando algún producto en específico?</span></h2>
+                        <p class="animate__animated animate__fadeInUp">Explora nuestro amplio catálogo de productos y encontrarás una gran variedad de opciones.</p>
+                        <a href="@Url.Action("Catalogo", "Producto")" class="btn-get-started animate__animated animate__fadeInUp scrollto">¡Acceder al catálogo!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Siguiente</span>
+        </a>
+    </div>
+
+
+
+
+
+
+    @*<center>
+            <h1> BIENVENIDO A Natural Mend </h1>
+        </center>
+        <div class="item active">
+            <center>
+                <h3>Realice su pedido desde nuestra página web</h3>
+            </center>
+        </div>
+        <div id="carouselExampleCaptions" data-bs-interval="3000" class="carousel slide carousel-fade" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item" style="background-image: url(../../Images/4.jpg)">
+                    <div class="carousel-container">
+                        <div class="container">
+                            <h2 class="animate__animated animate__fadeInDown"><span>¿Buscando repuestos o accesorios?</span></h2>
+                            <p class="animate__animated animate__fadeInUp">Explora nuestro amplio catálogo de productos y encontrarás una gran variedad de opciones.</p>
+                            <a href="@Url.Action("Catalogo", "Producto")" class="btn-get-started animate__animated animate__fadeInUp scrollto">¡Acceder al catálogo!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</div>

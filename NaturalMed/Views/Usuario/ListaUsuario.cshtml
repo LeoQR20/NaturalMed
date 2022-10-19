@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Infraestructura.Models.Usuario>
+@{
+    ViewBag.Title = "Lista de Usuarios";
+}
+
+<div class="card-boddy">
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <h2>Lista de Empleados</h2>
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TokenRecuperacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rol.Descripcion)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TokenRecuperacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rol.Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.ID })
+                </td>
+            </tr>
+        }
+    </table>
+    <a href="/Usuario/Create">Agregar Usuario</a>
+</div>

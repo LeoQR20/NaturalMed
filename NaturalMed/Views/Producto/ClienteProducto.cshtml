@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Infraestructura.Models.Producto>
+
+<!--<div class="card-boddy">
+    <div class="row-mb-3">
+        <h2>Información de los Productos</h2>
+    </div>-->
+@*<div class="col-md-4" style="float:right;margin-bottom:30px;margin-top:-50px">
+        <div>
+            <h5>Buscar Producto por Nombre</h5>
+            @using (Ajax.BeginForm("buscarProducto", "Producto", new AjaxOptions
+            {
+                UpdateTargetId = "resultado",
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "GET",
+                LoadingElementId = "ajaxLoader"
+            }))
+            {
+                <div>
+                    <div class="input-group">
+                        @Html.TextBox("filtro", "", new { @class = "form-control", @placeholder = "Nombre Producto" })
+
+                        <button type="submit" class="btn btn-default">Buscar</button>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>*@
+
+<!--<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>-->
+
+<h2>Listado de Productos</h2>
+
+<div>
+    <div id="resultado" class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-3">
+                <div class="card" style="width:300px;">
+                    <img src="data:imagen/jpeg;charsetnutf-8;base64,@Convert.ToBase64String(item.Album)"
+                         alt="Imagen @Html.DisplayFor(modelItem => item.Album)" class="img-thumbnail" style="width:300px; height:300px" />
+                    <div class="card-body">
+                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Nombre)</h5>
+                        <p class="card-text"> @Html.DisplayNameFor(model => model.Precio):@Html.DisplayFor(modelItem => item.Precio)</p>
+                        <p class="card-text"> @Html.DisplayNameFor(model => model.Descripcion):@Html.DisplayFor(modelItem => item.Descripcion)</p>
+                        <div class="card-body">
+                            @Ajax.ActionLink("Ordenar",//Texto para el usuario
+                                   "ordenarProducto",//Acción a llamar
+                                   "Orden",
+                                   new
+                                   {
+                                       idProducto = item.ID
+                                   },//Parámetros a enviar
+                                   new AjaxOptions
+                                   {
+                                       UpdateTargetId = "cantidadProducto",
+                                       InsertionMode = InsertionMode.Replace,
+                                       HttpMethod = "GET",
+                                   }, new { @class = "btn btn-primary" }
+                                   )
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryajex")
+}

@@ -1,0 +1,108 @@
+﻿@model Infraestructura.Models.Usuario
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm("Save", "Usuario"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal form-row">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.IDRole, "Rol", htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdRol", new SelectList(ViewBag.ListaTipos, "Id", "Descripcion"), htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IDRole, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-6" style="display:none">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Para la confirmación de contraseña*@
+        @*<div class="form-group col-md-6">
+                @Html.Label("Confirmar", htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-10">
+                    @Html.Password("Confirmar", "", new { @class = "form-control" })
+                    <label class="text-danger" id="mensaje"></label>
+                </div>
+            </div>*@
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-6" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Estado)
+                        @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="form-group col-md-12">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar Cambios" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function passwordValidate() {
+            if (document.getElementById("Confirmar").value != document.getElementById("Contrasenia").value) {
+                alert("Las contraseñas no coinciden");
+                event.preventDefault();
+            }
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#mensaje').hide();
+            $.validator.unobtrusive.parse($("modalEdit"));
+        });
+
+        var cambioDePass = function () {
+            var cont = $('#Contrasenia').val();
+            var cont2 = $('#Confirmar').val();
+            if (cont == cont2) {
+                $('#mensaje').hide();
+                $('#mensaje').show();
+                $('#mensaje').html("");
+            } else {
+                $('#mensaje').html("Las constraseñas no coinciden");
+                $('#mensaje').show();
+            }
+        }
+        $("#Contrasenia").on('keyup', cambioDePass);
+        $("#Confirmar").on('keyup', cambioDePass);
+
+    </script>
+}

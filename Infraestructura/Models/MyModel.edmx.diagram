@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b53791a9f07f49babb4af9eea746c524" Name="Diagram1">
+        <EntityTypeShape EntityType="NaturalMendModel.Cliente" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NaturalMendModel.Factura" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NaturalMendModel.Producto_Factura" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NaturalMendModel.Producto" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NaturalMendModel.Usuario" Width="1.5" PointX="4.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NaturalMendModel.Rol" Width="1.5" PointX="7.625" PointY="3.875" />
+        <AssociationConnector Association="NaturalMendModel.FK_Producto_Factura_Cliente" />
+        <AssociationConnector Association="NaturalMendModel.FK_Producto_Factura_Factura" />
+        <AssociationConnector Association="NaturalMendModel.FK_Producto_Factura_Productos" />
+        <AssociationConnector Association="NaturalMendModel.FK_Usuario_Rol" />
+        <EntityTypeShape EntityType="NaturalMendModel.Album" Width="1.5" PointX="5" PointY="7.375" />
+        <AssociationConnector Association="NaturalMendModel.FK_Album_Productos" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

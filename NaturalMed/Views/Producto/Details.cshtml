@@ -1,0 +1,45 @@
+﻿@model Infraestructura.Models.Producto
+@{
+    ViewBag.Title = "Details";
+}
+<div>
+    <h4>Detalle del Producto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Precio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cantidad)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar Producto", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Regresar", "AdminProducto", "Producto")
+</p>

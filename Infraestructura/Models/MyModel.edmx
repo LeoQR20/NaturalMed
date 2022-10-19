@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NaturalMendModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'NaturalMend.dbo.Album' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Album">
+          <Key>
+            <PropertyRef Name="IDProducto" />
+          </Key>
+          <Property Name="IDProducto" Type="int" Nullable="false" />
+          <Property Name="Foto" Type="image" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Apellidos" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IdCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="IdFactura" />
+          </Key>
+          <Property Name="SubTotal" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="IVA" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="IdFactura" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producto_Factura">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="IDProducto" Type="int" Nullable="false" />
+          <Property Name="IDFactura" Type="int" Nullable="false" />
+          <Property Name="IDCliente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" />
+          <Property Name="Precio" Type="float" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IDRol" />
+          </Key>
+          <Property Name="IDRol" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IDRole" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Estado" Type="bit" />
+          <Property Name="TokenRecuperacion" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Album_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="Album" Type="Self.Album" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Album">
+              <PropertyRef Name="IDProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Factura_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Producto_Factura" Type="Self.Producto_Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="Producto_Factura">
+              <PropertyRef Name="IDCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Factura_Factura">
+          <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
+          <End Role="Producto_Factura" Type="Self.Producto_Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factura">
+              <PropertyRef Name="IdFactura" />
+            </Principal>
+            <Dependent Role="Producto_Factura">
+              <PropertyRef Name="IDFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Factura_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="Producto_Factura" Type="Self.Producto_Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Producto_Factura">
+              <PropertyRef Name="IDProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IDRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IDRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NaturalMendModelStoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto_Factura" EntityType="Self.Producto_Factura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Album" EntityType="Self.Album" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[Album].[IDProducto] AS [IDProducto], 
+[Album].[Foto] AS [Foto]
+FROM [dbo].[Album] AS [Album]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Album_Productos" Association="Self.FK_Album_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Album" EntitySet="Album" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Factura_Cliente" Association="Self.FK_Producto_Factura_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Factura_Factura" Association="Self.FK_Producto_Factura_Factura">
+            <End Role="Factura" EntitySet="Factura" />
+            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Factura_Productos" Association="Self.FK_Producto_Factura_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NaturalMendModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Producto_Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Cliente" FromRole="Cliente" ToRole="Producto_Factura" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="IdFactura" />
+          </Key>
+          <Property Name="SubTotal" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="IdFactura" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Producto_Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Factura" FromRole="Factura" ToRole="Producto_Factura" />
+        </EntityType>
+        <EntityType Name="Producto_Factura">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IDProducto" Type="Int32" Nullable="false" />
+          <Property Name="IDFactura" Type="Int32" Nullable="false" />
+          <Property Name="IDCliente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="NaturalMendModel.FK_Producto_Factura_Cliente" FromRole="Producto_Factura" ToRole="Cliente" />
+          <NavigationProperty Name="Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Factura" FromRole="Producto_Factura" ToRole="Factura" />
+          <NavigationProperty Name="Producto" Relationship="NaturalMendModel.FK_Producto_Factura_Productos" FromRole="Producto_Factura" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Precio" Type="Double" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Producto_Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Productos" FromRole="Producto" ToRole="Producto_Factura" />
+          <NavigationProperty Name="Album" Relationship="NaturalMendModel.FK_Album_Productos" FromRole="Producto" ToRole="Album" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IDRole" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Rol" Relationship="NaturalMendModel.FK_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" />
+          <Property Name="TokenRecuperacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="NaturalMendEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clientes" EntityType="Self.Cliente" />
+          <EntitySet Name="Facturas" EntityType="Self.Factura" />
+          <EntitySet Name="Producto_Factura" EntityType="Self.Producto_Factura" />
+          <EntitySet Name="Productos" EntityType="Self.Producto" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <EntitySet Name="Rols" EntityType="NaturalMendModel.Rol" />
+          <AssociationSet Name="FK_Producto_Factura_Cliente" Association="NaturalMendModel.FK_Producto_Factura_Cliente">
+            <End Role="Cliente" EntitySet="Clientes" />
+            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Factura_Factura" Association="NaturalMendModel.FK_Producto_Factura_Factura">
+            <End Role="Factura" EntitySet="Facturas" />
+            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Factura_Productos" Association="NaturalMendModel.FK_Producto_Factura_Productos">
+            <End Role="Producto" EntitySet="Productos" />
+            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Rol" Association="NaturalMendModel.FK_Usuario_Rol">
+            <End Role="Rol" EntitySet="Rols" />
+            <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+          <EntitySet Name="Albums" EntityType="NaturalMendModel.Album" />
+          <AssociationSet Name="FK_Album_Productos" Association="NaturalMendModel.FK_Album_Productos">
+            <End Role="Producto" EntitySet="Productos" />
+            <End Role="Album" EntitySet="Albums" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IDRol" />
+          </Key>
+          <Property Name="IDRol" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Usuarios" Relationship="NaturalMendModel.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Producto_Factura_Cliente">
+          <End Type="NaturalMendModel.Cliente" Role="Cliente" Multiplicity="1" />
+          <End Type="NaturalMendModel.Producto_Factura" Role="Producto_Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="Producto_Factura">
+              <PropertyRef Name="IDCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Factura_Factura">
+          <End Type="NaturalMendModel.Factura" Role="Factura" Multiplicity="1" />
+          <End Type="NaturalMendModel.Producto_Factura" Role="Producto_Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factura">
+              <PropertyRef Name="IdFactura" />
+            </Principal>
+            <Dependent Role="Producto_Factura">
+              <PropertyRef Name="IDFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Factura_Productos">
+          <End Type="NaturalMendModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="NaturalMendModel.Producto_Factura" Role="Producto_Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Producto_Factura">
+              <PropertyRef Name="IDProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Rol">
+          <End Type="NaturalMendModel.Rol" Role="Rol" Multiplicity="1" />
+          <End Type="NaturalMendModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IDRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IDRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Album">
+          <Key>
+            <PropertyRef Name="IDProducto" />
+          </Key>
+          <Property Name="IDProducto" Type="Int32" Nullable="false" />
+          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Producto" Relationship="NaturalMendModel.FK_Album_Productos" FromRole="Album" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_Album_Productos">
+          <End Type="NaturalMendModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="NaturalMendModel.Album" Role="Album" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Album">
+              <PropertyRef Name="IDProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NaturalMendModelStoreContainer" CdmEntityContainer="NaturalMendEntities">
+          <EntitySetMapping Name="Clientes">
+            <EntityTypeMapping TypeName="NaturalMendModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturas">
+            <EntityTypeMapping TypeName="NaturalMendModel.Factura">
+              <MappingFragment StoreEntitySet="Factura">
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto_Factura">
+            <EntityTypeMapping TypeName="NaturalMendModel.Producto_Factura">
+              <MappingFragment StoreEntitySet="Producto_Factura">
+                <ScalarProperty Name="IDCliente" ColumnName="IDCliente" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDProducto" ColumnName="IDProducto" />
+                <ScalarProperty Name="IDFactura" ColumnName="IDFactura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="NaturalMendModel.Producto">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="NaturalMendModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="NaturalMendModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="TokenRecuperacion" ColumnName="TokenRecuperacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IDRole" ColumnName="IDRole" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rols">
+            <EntityTypeMapping TypeName="NaturalMendModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IDRol" ColumnName="IDRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Albums">
+            <EntityTypeMapping TypeName="NaturalMendModel.Album">
+              <MappingFragment StoreEntitySet="Album">
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="IDProducto" ColumnName="IDProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

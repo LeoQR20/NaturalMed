@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Infraestructura.Models.Producto>
+
+<table>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelitem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelitem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelitem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelitem => item.Foto)
+            </td>
+            <td>
+                @Html.ActionLink("Regresar", "ClienteProducto", "Producto")
+            </td>
+        </tr>
+    }
+</table>
+
+
