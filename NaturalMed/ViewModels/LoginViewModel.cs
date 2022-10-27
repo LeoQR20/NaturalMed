@@ -10,11 +10,12 @@ namespace NaturalMed.ViewModel
     {
         [Display(Name = "Cédula")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Password { get; set; }
+
         [Display(Name ="Correo Electrónico")]
         [EmailAddress(ErrorMessage ="Digite un {0} válido")]
         public string Email { get; set; }

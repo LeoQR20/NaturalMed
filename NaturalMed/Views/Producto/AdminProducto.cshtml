@@ -26,7 +26,7 @@
                 @Html.DisplayNameFor(Model => Model.Cantidad)
             </th>
             <th>
-                @Html.DisplayNameFor(Model => Model.Estado)
+                @Html.DisplayNameFor(Model => Model.Foto)
             </th>
             <th></th>
         </tr>
@@ -46,7 +46,7 @@
                     @Html.DisplayFor(modelitem => item.Cantidad)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelitem => item.Estado)
+                    <input class="zoom" type="image" src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(item.Foto)" id="ImagenActivo" style="height:150px;width:150px">
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |

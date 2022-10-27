@@ -58,6 +58,7 @@ namespace Infraestructura.Repository
         {
             int retorno = 0;
             Producto producto1 = null;
+
             using(MyContext ctx = new MyContext())
             {
                 ctx.Configuration.LazyLoadingEnabled = false;

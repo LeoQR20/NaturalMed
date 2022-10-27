@@ -15,8 +15,6 @@
         <AssociationConnector Association="NaturalMendModel.FK_Producto_Factura_Factura" />
         <AssociationConnector Association="NaturalMendModel.FK_Producto_Factura_Productos" />
         <AssociationConnector Association="NaturalMendModel.FK_Usuario_Rol" />
-        <EntityTypeShape EntityType="NaturalMendModel.Album" Width="1.5" PointX="5" PointY="7.375" />
-        <AssociationConnector Association="NaturalMendModel.FK_Album_Productos" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

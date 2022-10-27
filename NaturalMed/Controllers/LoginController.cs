@@ -86,7 +86,7 @@ namespace NaturalMed.Controllers
             }
         }
 
-        public ActionResult IniciarRecuperacion(LoginViewModel usuario)
+        public ActionResult Recuperacion(LoginViewModel usuario)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace NaturalMed.Controllers
         }
         [HttpGet]
         //Vista para solicitar al cliente la nueva contraseña
-        public ActionResult Recuperacion(string token)
+        public ActionResult RecuperacionPassword(string token)
         {
             IUsuario service = new ServiceUsuario();
             try

@@ -25,8 +25,8 @@ namespace Infraestructura.Models
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public int Cantidad { get; set; }
+        public byte[] Foto { get; set; }
     
         public virtual ICollection<Producto_Factura> Producto_Factura { get; set; }
-        public virtual byte[] Album { get; set; }
     }
 }

@@ -5,15 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="NaturalMendModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'NaturalMend.dbo.Album' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="Album">
-          <Key>
-            <PropertyRef Name="IDProducto" />
-          </Key>
-          <Property Name="IDProducto" Type="int" Nullable="false" />
-          <Property Name="Foto" Type="image" />
-        </EntityType>
         <EntityType Name="Cliente">
           <Key>
             <PropertyRef Name="IdCliente" />
@@ -52,6 +43,7 @@ advertencia 6002: La tabla o vista 'NaturalMend.dbo.Album' no tiene definida nin
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Foto" Type="image" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -79,21 +71,9 @@ advertencia 6002: La tabla o vista 'NaturalMend.dbo.Album' no tiene definida nin
           <Property Name="IDRole" Type="int" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Estado" Type="bit" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="TokenRecuperacion" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK_Album_Productos">
-          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
-          <End Role="Album" Type="Self.Album" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Productos">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Album">
-              <PropertyRef Name="IDProducto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Producto_Factura_Cliente">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
           <End Role="Producto_Factura" Type="Self.Producto_Factura" Multiplicity="*" />
@@ -150,16 +130,6 @@ advertencia 6002: La tabla o vista 'NaturalMend.dbo.Album' no tiene definida nin
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Album" EntityType="Self.Album" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[Album].[IDProducto] AS [IDProducto], 
-[Album].[Foto] AS [Foto]
-FROM [dbo].[Album] AS [Album]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="FK_Album_Productos" Association="Self.FK_Album_Productos">
-            <End Role="Productos" EntitySet="Productos" />
-            <End Role="Album" EntitySet="Album" />
-          </AssociationSet>
           <AssociationSet Name="FK_Producto_Factura_Cliente" Association="Self.FK_Producto_Factura_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Producto_Factura" EntitySet="Producto_Factura" />
@@ -225,7 +195,7 @@ FROM [dbo].[Album] AS [Album]</DefiningQuery>
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Producto_Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Productos" FromRole="Producto" ToRole="Producto_Factura" />
-          <NavigationProperty Name="Album" Relationship="NaturalMendModel.FK_Album_Productos" FromRole="Producto" ToRole="Album" />
+          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -247,7 +217,7 @@ FROM [dbo].[Album] AS [Album]</DefiningQuery>
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Rol" Relationship="NaturalMendModel.FK_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Estado" Type="Boolean" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="TokenRecuperacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="NaturalMendEntities" annotation:LazyLoadingEnabled="true">
@@ -273,11 +243,6 @@ FROM [dbo].[Album] AS [Album]</DefiningQuery>
           <AssociationSet Name="FK_Usuario_Rol" Association="NaturalMendModel.FK_Usuario_Rol">
             <End Role="Rol" EntitySet="Rols" />
             <End Role="Usuario" EntitySet="Usuarios" />
-          </AssociationSet>
-          <EntitySet Name="Albums" EntityType="NaturalMendModel.Album" />
-          <AssociationSet Name="FK_Album_Productos" Association="NaturalMendModel.FK_Album_Productos">
-            <End Role="Producto" EntitySet="Productos" />
-            <End Role="Album" EntitySet="Albums" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Rol">
@@ -336,26 +301,6 @@ FROM [dbo].[Album] AS [Album]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Album">
-          <Key>
-            <PropertyRef Name="IDProducto" />
-          </Key>
-          <Property Name="IDProducto" Type="Int32" Nullable="false" />
-          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Producto" Relationship="NaturalMendModel.FK_Album_Productos" FromRole="Album" ToRole="Producto" />
-        </EntityType>
-        <Association Name="FK_Album_Productos">
-          <End Type="NaturalMendModel.Producto" Role="Producto" Multiplicity="1" />
-          <End Type="NaturalMendModel.Album" Role="Album" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Producto">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Album">
-              <PropertyRef Name="IDProducto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -396,6 +341,7 @@ FROM [dbo].[Album] AS [Album]</DefiningQuery>
           <EntitySetMapping Name="Productos">
             <EntityTypeMapping TypeName="NaturalMendModel.Producto">
               <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
@@ -434,14 +380,6 @@ FROM [dbo].[Album] AS [Album]</DefiningQuery>
               <MappingFragment StoreEntitySet="Rol">
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="IDRol" ColumnName="IDRol" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Albums">
-            <EntityTypeMapping TypeName="NaturalMendModel.Album">
-              <MappingFragment StoreEntitySet="Album">
-                <ScalarProperty Name="Foto" ColumnName="Foto" />
-                <ScalarProperty Name="IDProducto" ColumnName="IDProducto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

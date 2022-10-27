@@ -14,10 +14,10 @@ namespace Infraestructura.Models
     {
         [Display(Name = "Producto")]
         public int ID { get; set; }
-                
+
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Descripcion { get; set; }
-        
+
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public Nullable<double> Precio { get; set; }
 
@@ -29,7 +29,7 @@ namespace Infraestructura.Models
 
         [Display(Name = "Foto")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public virtual Album Album { get; set; }
+        public byte[] Foto { get; set; }    
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public int Cantidad { get; set; }

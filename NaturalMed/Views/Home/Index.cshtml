@@ -14,9 +14,9 @@
             <div class="carousel-item active" style="background-image: url(../../Img/imagen-3.jpg)">
                 <div class="carousel-container">
                     <div class="container">
-                        <h2 class="animate__animated animate__fadeInDown"><span>NaturalMend</span></h2>
+                        <h2 class="animate__animated animate__fadeInDown"><span>Natural Mend</span></h2>
                         <p class="animate__animated animate__fadeInUp">Es un emprendimiento con la intención de producir alimentos saludables, naturales, no procesados para el consumo diario de las personas, con la idea de mejorar la calidad de vida de los consumidores.</p>
-                        <a onclick="showPrueba()" class="btn-get-started animate__animated animate__fadeInUp scrollto"><i class="fa fa-arrow-circle-down fa-2x"></i></a>
+                        @*<a onclick="showPrueba()" class="btn-get-started animate__animated animate__fadeInUp scrollto"><i class="fa fa-arrow-circle-down fa-2x"></i></a>*@
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                     <div class="container">
                         <h2 class="animate__animated animate__fadeInDown"><span>¿Buscando algún producto en específico?</span></h2>
                         <p class="animate__animated animate__fadeInUp">Explora nuestro amplio catálogo de productos y encontrarás una gran variedad de opciones.</p>
-                        <a href="@Url.Action("Catalogo", "Producto")" class="btn-get-started animate__animated animate__fadeInUp scrollto">¡Acceder al catálogo!</a>
+                        <a href="@Url.Action("ClienteCatalogo", "Producto")" class="btn-get-started animate__animated animate__fadeInUp scrollto">¡Acceder al catálogo!</a>
                     </div>
                 </div>
             </div>
@@ -39,36 +39,112 @@
             <span class="sr-only">Siguiente</span>
         </a>
     </div>
+</div>
 
-
-
-
-
-
-    @*<center>
-            <h1> BIENVENIDO A Natural Mend </h1>
-        </center>
-        <div class="item active">
-            <center>
-                <h3>Realice su pedido desde nuestra página web</h3>
-            </center>
-        </div>
-        <div id="carouselExampleCaptions" data-bs-interval="3000" class="carousel slide carousel-fade" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-                <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item" style="background-image: url(../../Images/4.jpg)">
-                    <div class="carousel-container">
-                        <div class="container">
-                            <h2 class="animate__animated animate__fadeInDown"><span>¿Buscando repuestos o accesorios?</span></h2>
-                            <p class="animate__animated animate__fadeInUp">Explora nuestro amplio catálogo de productos y encontrarás una gran variedad de opciones.</p>
-                            <a href="@Url.Action("Catalogo", "Producto")" class="btn-get-started animate__animated animate__fadeInUp scrollto">¡Acceder al catálogo!</a>
-                        </div>
-                    </div>
+<section id="services" class="services">
+    <div class="container">
+        <div class="row" style="text-align:center; font-size: medium">
+            <div class="col-md-6">
+                <div class="icon-box shadow">
+                    <h4><a>Nuestra Visión</a></h4>
+                    <p>Hacer excelentes productos para más clientes cada día y mejorar la vida diaria de muchas personas.</p>
                 </div>
             </div>
-        </div>*@
-</div>
+            <div class="col-md-6">
+                <div class="icon-box shadow">
+                    <h4><a>Nuestra Misión</a></h4>
+                    <p>
+                        Crear y promover alimentos de excelente sabor, más sanas y orgánicos.
+                        Coadyuvando a una alimentación altamente nutritiva y al alcance de todos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function showPrueba() {
+        document.getElementById('services').scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    }
+</script>
+
+<style>
+    section {
+        padding: 5% 0;
+        overflow: hidden;
+    }
+
+    .section-bg, .services .icon-box {
+        background-color: #f8f9fa;
+        height: 100%
+    }
+
+    .section-title {
+        padding-bottom: 40px;
+    }
+
+        .section-title h2 {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0;
+            line-height: 1px;
+            margin: 0 0 5px 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #aaaaaa;
+            font-family: "Poppins", sans-serif;
+        }
+
+            .section-title h2::after {
+                content: "";
+                width: 120px;
+                height: 1px;
+                display: inline-block;
+                background: #e6636a;
+                margin: 4px 10px;
+            }
+
+        .section-title p {
+            margin: 0;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: "Poppins", sans-serif;
+            color: #556270;
+        }
+
+    .services .icon-box {
+        margin-bottom: 20px;
+        padding: 30px;
+        border-radius: 6px;
+    }
+
+        .services .icon-box i {
+            float: left;
+            margin-top: 10%;
+            color: #d9232d;
+            font-size: 60px;
+        }
+
+        .services .icon-box h4 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        /*            .services .icon-box h4 a {
+                color: #556270;
+                transition: 0.3s;
+            }*/
+
+        .services .icon-box p {
+            */ line-height: 24px;
+            font-size: 14px;
+        }
+
+    a:hover {
+        text-decoration: none;
+    }
+</style>

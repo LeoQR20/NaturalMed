@@ -157,27 +157,26 @@ namespace NaturalMed.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [CustomAuthorize((int)Roles.Administrador)]
-        public ActionResult Save(Producto producto, HttpPostedFile ImageFile)
+        public ActionResult Save(Producto producto, HttpPostedFileBase ImageFile)
         {
             string errores = "";
             MemoryStream target = new MemoryStream();
-
-            IProducto pro = new ServiceProducto();
+            IProducto _producto = new ServiceProducto();
             try
             {
-                if (producto.Album == null)
+                if (producto.Foto == null)
                 {
                     if (ImageFile != null)
                     {
                         ImageFile.InputStream.CopyTo(target);
-                        producto.Album = target.ToArray();
-                        ModelState.Remove("Album");
+                        producto.Foto = target.ToArray();
+                        ModelState.Remove("Foto");
                     }
                 }
                  //Es Valiado
                 if (ModelState.IsValid)
                 {
-                    Producto producto1 = pro.Save(producto);
+                    Producto product = _producto.Save(producto);
                 }
                 else
                 {

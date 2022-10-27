@@ -1,20 +1,20 @@
 ﻿@model Infraestructura.Models.Producto
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar";
 }
+<h2>Editar Producto</h2>
 
-@using (Html.BeginForm("Save","Producto"))
+@using (Html.BeginForm("Save","Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Producto</h4>
+<div class="form-horizontal form-row">
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.ID)
 
-    <div class="form-group">
+    <div class="form-group col-md-6">
         @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
@@ -22,26 +22,19 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-6">
         @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Album, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <input type="file" name="ImageFile" required />
         </div>
     </div>
 
@@ -53,9 +46,17 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input class="zoom" type="image" src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(Model.Foto)" id="ImagenActivo" style="height:100px;width:100px">
+            <input type="file" name="ImageFile" />
+        </div>
+    </div>
+
+    <div class="form-group col-md-6">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Guardar" class="btn btn-default" />
+            <input type="submit" value="Guardar Cambios" class="btn btn-success" />
         </div>
     </div>
 </div>

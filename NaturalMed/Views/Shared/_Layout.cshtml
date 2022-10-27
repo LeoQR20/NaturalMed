@@ -1,58 +1,191 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Inicio</title>
+    <title>@ViewBag.Title - Natural Mend</title>
     @Styles.Render("~/Content/css")
+    @*@Styles.Render("~/Content/fontawesome")*@
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/toastr.css">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("NaturalMend", "Inicio", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top bg-dark text-white">
+        <a href="@Url.Action("Index", "Home")"><img class="img img-responsive" src="@Url.Content("~/Images/Inicio.jpeg")" width="80" height="80" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                @{
+                    Infraestructura.Models.Usuario empleado;
+                    if (Session["User"] != null)
+                    {
+                        // Casting
+                        empleado = Session["User"] as Infraestructura.Models.Usuario;
+
+                        if (empleado != null)
+                        {
+                            if (empleado.IDRole == 1)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="@Url.Action("AdminProducto", "Producto")">Productos</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administración</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="@Url.Action("List", "Empleado")">Control de Empleados</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Procesos</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="@Url.Action("IndexAdmin", "Orden")">Administración de Órdenes</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="@Url.Action("ReporteOrdenes", "Reportes")">Reporte de Órdenes</a>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    }
+                }
+                <li class="nav-item">
+                    <a class="nav-link text-dark" id="menu" href="@Url.Action("ClienteProducto", "Producto", new { id = "menu" })" )">Catálogo</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    @{
+                        string nombre = "";
+                        Infraestructura.Models.Usuario oEmpleado;
+                        // Validar si vienen datos en la session
+                        if (Session["User"] != null)
+                        {
+                            // Casting
+                            oEmpleado = Session["User"] as Infraestructura.Models.Usuario;
+
+                            if (oEmpleado != null)
+                            {
+                                nombre = $"{oEmpleado.Nombre}";
+
+                                <a class="dropdown-toggle" data-toggle="dropdown" id="menu">
+                                    @nombre
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item" href="@Url.Action("Logout", "Login")">
+                                            Salir
+                                            <span class="glyphicon   glyphicon-log-out" aria-hidden="true"></span>
+                                        </a>
+
+                                    </li>
+                                </ul>
+                            }
+                        }
+                        else
+                        {
+                            <a style="margin-top: 1%" id="menu" href="@Url.Action("Index", "Login")">
+                                Iniciar Sesión
+                                <span class="glyphicon  glyphicon-log-in " aria-hidden="true"></span>
+                            </a>
+                        }
+                    }
+                </li>
+            </ul>
         </div>
-    </div>
+    </nav>
+    <br />
+    <br />
+
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <div class="container">
-                <div class="row justify-content-between">
-                    <div class="col-7">
-                        <p>&copy; @DateTime.Now.Year - Todos los derechos reservados</p>
-                    </div>
-                    <div class="col-5">
-                        <div style="float:right">
-                            <a class="social" href="" target="_blank">
-                                <img src="~/Images/instagram.png" width="40" height="40" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </footer>
     </div>
 
+    <!-- Footer -->
+    <footer class="page-footer font-small" style="background-color:lightgray; margin-bottom:-2%; margin-top:2%;">
+        <!-- Footer Links -->
+        <div class="container text-center text-md-left">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-4 mr-auto my-md-4 my-0 mt-4 mb-1" align="justify">
+                    <!-- Content -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">Nosotros</h5>
+                    <p> El mejor lugar para conocer o pedir las mejores mantequillas del país, sin preservantes o químicos </p>
+                    <p> Estas Mantequillas son 100% naturales </p>
+                </div>
+                <!-- Grid column -->
+                <hr class="clearfix w-100 d-md-none">
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-5 mx-auto my-md-4 my-0 mt-4 mb-1" style="padding-left:12%;" align="center">
+                    <!-- Contact details -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">Información</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <p>
+                                <i class="fa fa-envelope"></i>  NaturalMend@gmail.com
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fab fa-whatsapp"></i> +506 6051-8109
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fab fa-instagram"></i> <a href="https://instagram.com/natural_mend?igshid=YmMyMTA2M2Y=" target="_blank">Siguenos en Instagram</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+                <hr class="clearfix w-100 d-md-none">
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Footer Links -->
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">
+            © @DateTime.Now.Year Copyright
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+
     @Scripts.Render("~/bundles/jquery")
-    @*@Scripts.Render("~/bundles/bootstrap")*@
-    <script src="~/Scripts/bootstrap.bundle.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
-</html>
+</html>-->
+
+
+<style>
+    #menu {
+        color: white;
+    }
+
+        #menu.dropdown-toggle:focus {
+            color: white;
+            /*background-color: #d60c0c;*/
+        }
+
+        #menu.dropdown-toggle {
+            color: white;
+            /*background-color: #e31110;*/
+        }
+
+        #menu:hover {
+            transform: translateY(-1px) scale(1.05);
+        }
+</style>
+

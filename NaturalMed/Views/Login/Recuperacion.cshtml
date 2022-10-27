@@ -1,0 +1,50 @@
+﻿@model NaturalMed.ViewModel.LoginViewModel
+
+@{
+    ViewBag.title = "Recuperación de Contraseña";
+}
+@{
+    Layout = Layout = "~/Views/Shared/_Login.cshtml"; ;
+}
+
+<h2 id="formularioTitle" align="center">Ingrese el correo asociado a su cuenta</h2>
+
+@using (Html.BeginForm("IniciarRecuperacion", "Login", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-horizontal" id="formulario" align="center">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Enviar" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<style>
+    body {
+        margin-top: 10%;
+    }
+
+    .btn {
+        width: 60%
+    }
+</style>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
