@@ -1,0 +1,96 @@
+﻿@model Infraestructura.Models.Factura
+@{
+    ViewBag.Title = "Resumen de la Orden";
+}
+
+<div style="margin-top:2%; margin-bottom:2%;">
+    <h2 style="margin-top:5px; margin-bottom:2px;">Orden <b>#@Html.DisplayFor(model => model.IdFactura)</b> </h2>
+    <hr />
+    <div>
+        <dl class="dl-horizontal text-left">
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaCreacion):
+            </dt>
+
+            <dd>
+                @Html.ValueFor(model => model.FechaCreacion)
+            </dd>
+        </dl>
+        <br />
+        <h2 style="margin-top:2%; margin-bottom:2%;">Resumen de la Orden</h2>
+        <hr />
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    Producto
+                </th>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Precio
+                </th>
+                <th>
+                    Subtotal
+                </th>
+            </tr>
+
+            @foreach (var item in Model.Producto_Factura)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Precio)
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div class="row">
+            <div class="col-lg-5 col-sm-5"></div>
+            <div class="col-lg-7 col-sm-5 ml-auto">
+                <table class="table table-clear">
+                    <tbody>
+                        <tr>
+                            <td class="left">
+                                <strong>IVA</strong>
+                            </td>
+                            <td class="right">
+                                <strong> &cent; @Html.DisplayFor(model => model.IVA)</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left">
+                                <strong>Subtotal</strong>
+                            </td>
+                            <td class="right">
+                                <strong>  &cent; @Html.DisplayFor(model => model.SubTotal)</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left">
+                                <strong>Total</strong>
+                            </td>
+                            <td class="right">
+                                <strong> &cent; @Html.DisplayFor(model => model.Total)</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr />
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

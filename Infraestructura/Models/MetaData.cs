@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace Infraestructura.Models
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public Nullable<double> Precio { get; set; }
+        public Nullable<decimal> Precio { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Nombre { get; set; }
@@ -60,4 +61,28 @@ namespace Infraestructura.Models
 
         public Nullable<bool> Estado { get; set; }
     }
+
+    internal partial class FacturaMetadata
+    {
+        [Display(Name ="Numero de Factura")]
+        public int IdFactura { get; set; }
+
+        [Display(Name = "Sub Total")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
+        public Nullable<decimal> Subtotal { get; set; }
+
+        [Display(Name = "Total")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
+        public Nullable<decimal> Total { get; set; }
+
+        [Display(Name = "Impuesto de Venta")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
+        public Nullable<decimal> IVA { get; set; }
+
+        public Nullable<bool> EstadoFactura { get; set; }
+
+        [Display(Name = "Fecha de Creación")]
+        public Nullable<System.DateTime> FechaCreacion { get; set; }
+    }
 }
+

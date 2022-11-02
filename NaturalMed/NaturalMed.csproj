@@ -134,6 +134,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
@@ -149,6 +150,8 @@
     <Compile Include="Utils\SweetAlertHelper.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelCarrito.cs" />
+    <Compile Include="ViewModels\ViewModelFacturaDetalle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -162,7 +165,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\check-green.gif" />
     <Content Include="Images\Inicio.jpeg" />
+    <Content Include="Images\respaldo.png" />
+    <Content Include="Images\user.png" />
     <Content Include="Images\índice.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -318,11 +324,21 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Login\Recuperacion.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
+    <Content Include="Views\Orden\IndexAdmin.cshtml" />
+    <Content Include="Views\Orden\Index.cshtml" />
+    <Content Include="Views\Orden\OrdenCompleta.cshtml" />
+    <Content Include="Views\Orden\Edit.cshtml">
+      <BrowseToURL>~/Orden/Edit</BrowseToURL>
+    </Content>
+    <Content Include="Views\Orden\Details.cshtml" />
+    <Content Include="Views\Orden\DetailsCliente.cshtml" />
+    <Content Include="Views\Orden\DetalleOrden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="CSS\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Factura\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

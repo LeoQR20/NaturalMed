@@ -12,21 +12,18 @@ namespace Infraestructura.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Factura
+    public partial class CondicionFactura
     {
-        public Factura()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CondicionFactura()
         {
-            this.Producto_Factura = new HashSet<Producto_Factura>();
+            this.Facturas = new HashSet<Factura>();
         }
     
-        public decimal SubTotal { get; set; }
-        public decimal Total { get; set; }
-        public decimal IVA { get; set; }
-        public int IdFactura { get; set; }
-        public System.DateTime FechaCreacion { get; set; }
-        public Nullable<int> IdCondicion { get; set; }
-    
-        public virtual ICollection<Producto_Factura> Producto_Factura { get; set; }
-        public virtual CondicionFactura CondicionFactura { get; set; }
+        public int ID { get; set; }
+        public string Descripcion { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Factura> Facturas { get; set; }
     }
 }

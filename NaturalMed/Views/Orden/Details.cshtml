@@ -1,0 +1,105 @@
+﻿@model Infraestructura.Models.Producto_Factura
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+<div style="margin-top:100px; margin-bottom:100px;">
+    <h2 style="margin-top:5px; margin-bottom:2px;">Orden <b>#@Html.DisplayFor(model => model.IDFactura)</b> </h2>
+
+    <hr />
+    <div>
+        <dl class="dl-horizontal text-left">
+            <dt>
+                @Html.DisplayNameFor(model => model.Factura.FechaCreacion):
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Factura.FechaCreacion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Factura.CondicionFactura):
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Factura.CondicionFactura.Descripcion)
+            </dd>
+            <dt>
+                @Html.DisplayName("Nombre Cliente: ")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Cliente.Nombre) @Html.DisplayFor(model => model.Cliente.Apellidos)
+            </dd>
+        </dl>
+        <br />
+        <h2 style="margin-top:5px; margin-bottom:2px;">Resumen de la Orden</h2>
+        <hr />
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    Producto
+                </th>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Precio
+                </th>
+                <th>
+                    Subtotal
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Producto.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Producto.Cantidad)
+                </td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col-lg-5 col-sm-5"></div>
+            <div class="col-lg-7 col-sm-5 ml-auto">
+                <table class="table table-clear">
+                    <tbody>
+                        <tr>
+                            <td class="left">
+                                <strong>Impuesto</strong>
+                            </td>
+                            <td class="right">
+                                <strong>@Html.DisplayFor(model => model.Factura.IVA)</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left">
+                                <strong>Subtotal</strong>
+                            </td>
+                            <td class="right">
+                                <strong>@Html.DisplayFor(model => model.Factura.SubTotal)</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left">
+                                <strong>Total</strong>
+                            </td>
+                            <td class="right">
+                                <strong>@Html.DisplayFor(model => model.Factura.Total)</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <h5>
+        @Html.ActionLink("Regresar al listado", "IndexAdmin")
+    </h5>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,45 @@
+﻿@model Infraestructura.Models.Factura
+
+@{
+    ViewBag.Title = "Confirmar Orden";
+}
+
+<div style="margin-top:100px; margin-bottom:100px;">
+    <hr />
+    <div>
+        <dl class="dl-horizontal text-left">
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaCreacion):
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FechaCreacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CondicionFactura):
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CondicionFactura.Descripcion)
+            </dd>
+        </dl>
+        <br />
+
+    </div>
+    <hr />
+
+    @using (Html.BeginForm("Edit", "Orden", new { id = Model.IdFactura }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Guardar" class="btn btn-primary" />    |
+            @Html.ActionLink("Regresar al listado", "IndexAdmin")
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

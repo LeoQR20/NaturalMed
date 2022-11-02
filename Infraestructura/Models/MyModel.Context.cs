@@ -32,5 +32,6 @@ namespace Infraestructura.Models
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Rol> Rols { get; set; }
+        public DbSet<CondicionFactura> CondicionFacturas { get; set; }
     }
 }

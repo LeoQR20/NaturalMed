@@ -48,9 +48,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ICliente.cs" />
+    <Compile Include="Services\ICondicionFactura.cs" />
+    <Compile Include="Services\IFactura.cs" />
     <Compile Include="Services\IProducto.cs" />
     <Compile Include="Services\IRol.cs" />
     <Compile Include="Services\IUsuario.cs" />
+    <Compile Include="Services\ServiceCondicionFactura.cs" />
+    <Compile Include="Services\ServiceFactura.cs" />
     <Compile Include="Services\ServiceProducto.cs" />
     <Compile Include="Services\ServiceRol.cs" />
     <Compile Include="Services\ServiceUsuario.cs" />

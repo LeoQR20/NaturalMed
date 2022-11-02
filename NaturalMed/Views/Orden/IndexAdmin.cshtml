@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Infraestructura.Models.Factura>
+
+@{
+    ViewBag.Title = "Ordenes";
+}
+
+<div class="container">
+
+    <h2>Lista de Ordenes registradas</h2>
+    <div class="btn-group btn-group-justified" role="group">
+
+    </div>
+
+    <div class="row">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdFactura)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaCreacion)
+                    </th>
+                    @*<th class="d-none d-sm-block">
+                            @Html.DisplayNameFor(model => model.NombreCliente)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.EstadoFactura)
+                    </th>
+                    <th>
+                        @Html.Label("Acciones")
+                    </th>
+                </tr>
+            </thead>
+            <tbody id=" resultado">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdFactura)
+                        </td>
+                        <td>
+                            @Convert.ToDateTime(item.FechaCreacion).ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstadoFactura)
+                        </td>
+                        <td>
+                            <a class="btn" style="background-color: lightgray" title="Detalles Orden" href="@Url.Action("Details", "Orden", new {id = item.IdFactura })"><i class="fa fa-info"></i></a>
+                            <a class="btn btn-success" onclick="aprobar()" title="Aprobar Orden" href="@Url.Action("AprobarOrden", "Orden", new {id = item.IdFactura })"><i class="fa fa-check"></i></a>
+                            <a class="btn btn-primary" onclick="rechazar()" title="Rechazar Orden" href="@Url.Action("RechazarOrden", "Orden", new {id = item.IdFactura })"><i class="fa fa-ban"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+@* Mensajes de rechazado y aprobado *@
+<script>
+    function rechazar() {
+        swal("Información", "Orden Rechazada", "error");
+        wait
+    }
+
+    function aprobar() {
+        swal("Información", "Orden Aprobada", "success");
+    }
+</script>
+
+<style>
+    #toast-container > div {
+        margin-top: 29%;
+        opacity: 1;
+    }
+</style>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryajax")
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
