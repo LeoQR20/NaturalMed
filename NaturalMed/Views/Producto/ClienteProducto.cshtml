@@ -17,12 +17,12 @@
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Descripcion)</h5>
 
                     <p class="card-text">
-                        @Html.DisplayNameFor(model => model.Precio): @Html.DisplayFor(model => item.Precio)
+                        @Html.DisplayNameFor(model => model.Precio):&cent; @Html.DisplayFor(model => item.Precio)
 
                     </p>
                     @Ajax.ActionLink("Ordenar",//Texto para el usuario
                                 "ordenarProducto",//Acción a llamar
-                                "Orden",
+                                "Factura",
                                 new
                                 {
                                     ProductoId = item.ID

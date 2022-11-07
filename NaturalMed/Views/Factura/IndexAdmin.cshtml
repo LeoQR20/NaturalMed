@@ -8,9 +8,7 @@
 
     <h2>Lista de Ordenes registradas</h2>
     <div class="btn-group btn-group-justified" role="group">
-
     </div>
-
     <div class="row">
 
         <table class="table">
@@ -22,11 +20,11 @@
                     <th>
                         @Html.DisplayNameFor(model => model.FechaCreacion)
                     </th>
-                    @*<th class="d-none d-sm-block">
-                            @Html.DisplayNameFor(model => model.NombreCliente)
-                        </th>*@
+                    <th class="d-none d-sm-block">
+                            @Html.DisplayNameFor(model => model.Cliente.Nombre)
+                        </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.EstadoFactura)
+                        @Html.DisplayNameFor(model => model.IdCondicion)
                     </th>
                     <th>
                         @Html.Label("Acciones")
@@ -44,20 +42,18 @@
                             @Convert.ToDateTime(item.FechaCreacion).ToString("dd/MM/yyyy")
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.EstadoFactura)
+                            @Html.DisplayFor(modelItem => item.CondicionFactura.Descripcion)
                         </td>
                         <td>
-                            <a class="btn" style="background-color: lightgray" title="Detalles Orden" href="@Url.Action("Details", "Orden", new {id = item.IdFactura })"><i class="fa fa-info"></i></a>
-                            <a class="btn btn-success" onclick="aprobar()" title="Aprobar Orden" href="@Url.Action("AprobarOrden", "Orden", new {id = item.IdFactura })"><i class="fa fa-check"></i></a>
-                            <a class="btn btn-primary" onclick="rechazar()" title="Rechazar Orden" href="@Url.Action("RechazarOrden", "Orden", new {id = item.IdFactura })"><i class="fa fa-ban"></i></a>
+                            <a class="btn" style="background-color: lightgray" title="Detalles Orden" href="@Url.Action("Details", "Factura", new {id = item.IdFactura })"><i class="fa fa-info"></i></a>
+                            <a class="btn btn-success" onclick="aprobar()" title="Aprobar Orden" href="@Url.Action("AprobarOrden", "Factura", new {id = item.IdFactura })"><i class="fa fa-check"></i></a>
+                            <a class="btn btn-primary" onclick="rechazar()" title="Rechazar Orden" href="@Url.Action("RechazarOrden", "Factura", new {id = item.IdFactura })"><i class="fa fa-ban"></i></a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-
     </div>
-
 </div>
 
 @* Mensajes de rechazado y aprobado *@

@@ -37,19 +37,19 @@ namespace NaturalMed.ViewModels
         {
             get
             {
-                return total();
+                return calculoSubtotal();
             }
         }
 
-        private decimal total()
-        {
+        //private decimal total()
+        //{
 
-            decimal sub = calculoSubtotal();
-            decimal total;
+        //    decimal sub = calculoSubtotal();
+        //    decimal total;
 
-            total = (decimal)((sub * Producto.Precio) + sub);
-            return total;
-        }
+        //    total = (decimal)((sub * Producto.Precio) + sub);
+        //    return total;
+        //}
 
 
         public ViewModelFacturaDetalle(int ProductoId)

@@ -19,15 +19,24 @@ namespace NaturalMed.Controllers
         public ActionResult Index()
         {
             ICondicionFactura factura = new ServiceCondicionFactura();
-            IFactura _factura = new ServiceFactura();
             if (TempData.ContainsKey("NotificationMessage"))
             {
                 ViewBag.NotificationMessage = TempData["NotificationMessage"];
             }
+            ViewBag.idCliente = listaClientes();
             ViewBag.CondicionFacturaId =factura.GetCondicionFacturas();
             ViewBag.FacturaProducto = ViewModelCarrito.Instancia.Items;
 
             return View();
+        }
+
+        private SelectList listaClientes()
+        {
+            //Lista de Clientes
+            ICliente _ServiceCliente = new ServiceCliente();
+            IEnumerable<Cliente> listaClientes = _ServiceCliente.GetClientes();
+
+            return new SelectList(listaClientes, "IdCliente", "IdCliente");
         }
 
         //Ordenar un producto y agregarlo al carrito
@@ -150,7 +159,7 @@ namespace NaturalMed.Controllers
                 if (ViewModelCarrito.Instancia.Items.Count() <= 0)
                 {
                     // Validaciones de datos requeridos.
-                    TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Orden", "Seleccione los libros a ordenar", SweetAlertMessageType.warning);
+                    TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Orden", "Seleccione los productos a ordenar", SweetAlertMessageType.warning);
                     return RedirectToAction("Index");
                 }
                 else
@@ -163,10 +172,10 @@ namespace NaturalMed.Controllers
                     foreach (var item in listaDetalle)
                     {
                         Producto_Factura facturaDetalle = new Producto_Factura();
-                        facturaDetalle.ID = item.OrdenId;
+                        facturaDetalle.IDFactura = item.OrdenId;
                         facturaDetalle.IDProducto = item.ProductoId;
-                        facturaDetalle.Producto.Precio = item.Precio;
-                        facturaDetalle.Producto.Cantidad = item.Cantidad;
+                        facturaDetalle.Precio = item.Precio;
+                        facturaDetalle.Cantidad = item.Cantidad;
                         factura.Producto_Factura.Add(facturaDetalle);
                     }
                 }
@@ -184,7 +193,7 @@ namespace NaturalMed.Controllers
                 ViewModelCarrito.Instancia.eliminarViewModelCarrito();
                 TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Orden", "Orden guardada satisfactoriamente!", SweetAlertMessageType.success);
                 // Reporte orden
-                return RedirectToAction("Index");
+                return View("OrdenCompleta");
             }
             catch (Exception ex)
             {

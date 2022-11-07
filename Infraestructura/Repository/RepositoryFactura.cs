@@ -128,6 +128,24 @@ namespace Infraestructura.Repository
             Factura oFactura = null;
             try
             {
+                //using (MyContext ctx = new MyContext())
+                //{
+                //    using (var transaccion = ctx.Database.BeginTransaction())
+                //    {
+                //        ctx.Facturas.Add(factura);
+                //        retorno = ctx.SaveChanges();
+                //        foreach (var detatalle in factura.Producto_Factura)
+                //        {
+                //            detatalle.IDFactura = factura.IdFactura;
+                //        }
+                //        transaccion.Commit();
+                //    }
+                //}
+                //if (retorno >= 0 )
+
+                //    oFactura = GetFacturaById(factura.IdFactura);
+
+                //return oFactura;
 
                 using (MyContext ctx = new MyContext())
                 {

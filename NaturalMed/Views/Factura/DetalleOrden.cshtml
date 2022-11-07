@@ -33,18 +33,9 @@
                         @Html.DisplayFor(modelItem => item.Producto.Descripcion)
                     </td>
                     <td class="right" style="width:1.5em">
-                        @Html.DisplayFor(modelItem => item.Cantidad, new
-                        {
-                            htmlAttributes = new
-                   {
-                                @class = "form-control changeCantidad",
-                       data_productoid = item.Producto.ID,
-                       @readonly = "true"
-                            }
-                   })
+                        @Html.DisplayFor(modelItem => item.Cantidad, new { htmlAttributes = new { @class = "form-control changeCantidad", data_productoid = item.Producto.ID, onchange = "updateCantidad(this)" } })
                     </td>
                     <td class="right">
-
                         @Html.DisplayFor(modelItem => item.Precio)
                     </td>
                     <td class="right">

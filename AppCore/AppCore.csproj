@@ -53,6 +53,7 @@
     <Compile Include="Services\IProducto.cs" />
     <Compile Include="Services\IRol.cs" />
     <Compile Include="Services\IUsuario.cs" />
+    <Compile Include="Services\ServiceCliente.cs" />
     <Compile Include="Services\ServiceCondicionFactura.cs" />
     <Compile Include="Services\ServiceFactura.cs" />
     <Compile Include="Services\ServiceProducto.cs" />

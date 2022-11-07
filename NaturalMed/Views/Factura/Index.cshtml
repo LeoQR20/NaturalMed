@@ -1,10 +1,10 @@
-﻿@model Infraestructura.Models.Producto_Factura
+﻿@model Infraestructura.Models.Factura
 
 @{
     ViewBag.Title = "Orden";
 }
 
-@using (Html.BeginForm("Save", "Orden", FormMethod.Post))
+@using (Html.BeginForm("Save", "Factura", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div style="margin-top:0%; margin-bottom:0%;">
@@ -32,7 +32,6 @@
                                 <h4 style="color: gray">@now</h4>
                             }
                         </div>
-
                         <hr />
                         <h3 style="margin-top: 1%">Información del Cliente</h3>
                         <div class="form-group">
@@ -49,6 +48,20 @@
                                 @Html.ValidationMessageFor(model => model.Cliente.Apellidos, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Cliente.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Cliente.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Cliente.Telefono, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Cliente.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Cliente.email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Cliente.email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,12 +73,15 @@
                         @if (NaturalMed.ViewModels.ViewModelCarrito.Instancia.Items.Count() > 0)
                         {
                             <h3>Resumen de la Orden</h3>
-                            @Html.Partial("~/Views/Orden/_DetalleOrden.cshtml", (List<NaturalMed.ViewModels.ViewModelFacturaDetalle>)ViewBag.DetalleOrden)
+                            @Html.Partial("~/Views/Factura/DetalleOrden.cshtml", (List<NaturalMed.ViewModels.ViewModelFacturaDetalle>)ViewBag.FacturaProducto)
                         }
                         else
                         {
-                            <div class="alert alert-warning" style="margin-bottom: 8%; margin-top: 1.5%">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                 La Orden no tiene Productos asignados
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         }
                     </div>
@@ -93,7 +109,7 @@
                         "Fecha: *" + now + "*%0A%0A" +
                         "*Productos:*%0A";
 
-                    foreach (var item in (List<NaturalMed.ViewModels.ViewModelFacturaDetalle>)ViewBag.DetalleOrden)
+                    foreach (var item in (List<NaturalMed.ViewModels.ViewModelFacturaDetalle>)ViewBag.FacturaProducto)
                     {
                         mensaje += item.Producto.Descripcion + "*" +
                             "%0ACantidad: " + item.Cantidad +

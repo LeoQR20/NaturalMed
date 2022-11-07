@@ -127,7 +127,7 @@ namespace NaturalMed.ViewModels
         public decimal GetTotal()
         {
             decimal total = 0;
-            total = Items.Sum(x => x.Total);
+            total = Items.Sum(x => x.SubTotal);
 
             return total;
         }
@@ -148,7 +148,10 @@ namespace NaturalMed.ViewModels
 
         public decimal GetImpuesto()
         {
-            return (decimal)(Items.Sum(x => x.Producto.Precio * x.Producto.Precio));
+            decimal impuesto = 0;
+            impuesto = GetSubTotal() * 0.13M;
+            return impuesto;
+            //return (decimal)(Items.Sum(x => x.Producto.Precio));
         }
     }
 }

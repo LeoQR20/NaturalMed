@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="NaturalMendModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NaturalMendModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cliente">
           <Key>
             <PropertyRef Name="IdCliente" />
@@ -19,7 +19,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Factura">
@@ -29,18 +29,20 @@
           <Property Name="SubTotal" Type="money" Nullable="false" />
           <Property Name="Total" Type="money" Nullable="false" />
           <Property Name="IVA" Type="money" Nullable="false" />
-          <Property Name="IdFactura" Type="int" Nullable="false" />
+          <Property Name="IdFactura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCondicion" Type="int" Nullable="false" />
           <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="IDCliente" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Producto_Factura">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="IDProducto" />
+            <PropertyRef Name="IDFactura" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="IDProducto" Type="int" Nullable="false" />
           <Property Name="IDFactura" Type="int" Nullable="false" />
-          <Property Name="IDCliente" Type="int" Nullable="false" />
+          <Property Name="Precio" Type="money" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Productos">
           <Key>
@@ -58,7 +60,7 @@
           <Key>
             <PropertyRef Name="IDRol" />
           </Key>
-          <Property Name="IDRol" Type="int" Nullable="false" />
+          <Property Name="IDRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -75,7 +77,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IDRole" Type="int" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -83,6 +85,18 @@
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="TokenRecuperacion" Type="nvarchar(max)" />
         </EntityType>
+        <Association Name="FK_Factura_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="IDCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Factura_CondicionFactura">
           <End Role="CondicionFactura" Type="Self.CondicionFactura" Multiplicity="1" />
           <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
@@ -92,18 +106,6 @@
             </Principal>
             <Dependent Role="Factura">
               <PropertyRef Name="IdCondicion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Producto_Factura_Cliente">
-          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
-          <End Role="Producto_Factura" Type="Self.Producto_Factura" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cliente">
-              <PropertyRef Name="IdCliente" />
-            </Principal>
-            <Dependent Role="Producto_Factura">
-              <PropertyRef Name="IDCliente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -152,13 +154,13 @@
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Factura_Cliente" Association="Self.FK_Factura_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
           <AssociationSet Name="FK_Factura_CondicionFactura" Association="Self.FK_Factura_CondicionFactura">
             <End Role="CondicionFactura" EntitySet="CondicionFactura" />
             <End Role="Factura" EntitySet="Factura" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Producto_Factura_Cliente" Association="Self.FK_Producto_Factura_Cliente">
-            <End Role="Cliente" EntitySet="Cliente" />
-            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
           </AssociationSet>
           <AssociationSet Name="FK_Producto_Factura_Factura" Association="Self.FK_Producto_Factura_Factura">
             <End Role="Factura" EntitySet="Factura" />
@@ -186,7 +188,15 @@
           <Property Name="IdCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Producto_Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Cliente" FromRole="Cliente" ToRole="Producto_Factura" />
+          <NavigationProperty Name="Facturas" Relationship="Self.FK_Factura_Cliente" FromRole="Cliente" ToRole="Factura" />
+        </EntityType>
+        <EntityType Name="CondicionFactura">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Facturas" Relationship="Self.FK_Factura_CondicionFactura" FromRole="CondicionFactura" ToRole="Factura" />
         </EntityType>
         <EntityType Name="Factura">
           <Key>
@@ -195,36 +205,46 @@
           <Property Name="SubTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="IVA" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="IdFactura" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Producto_Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Factura" FromRole="Factura" ToRole="Producto_Factura" />
-          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdFactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdCondicion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CondicionFactura" Relationship="NaturalMendModel.FK_Factura_CondicionFactura" FromRole="Factura" ToRole="CondicionFactura" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IDCliente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK_Factura_Cliente" FromRole="Factura" ToRole="Cliente" />
+          <NavigationProperty Name="CondicionFactura" Relationship="Self.FK_Factura_CondicionFactura" FromRole="Factura" ToRole="CondicionFactura" />
+          <NavigationProperty Name="Producto_Factura" Relationship="Self.FK_Producto_Factura_Factura" FromRole="Factura" ToRole="Producto_Factura" />
         </EntityType>
         <EntityType Name="Producto_Factura">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="IDProducto" />
+            <PropertyRef Name="IDFactura" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="IDProducto" Type="Int32" Nullable="false" />
           <Property Name="IDFactura" Type="Int32" Nullable="false" />
-          <Property Name="IDCliente" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cliente" Relationship="NaturalMendModel.FK_Producto_Factura_Cliente" FromRole="Producto_Factura" ToRole="Cliente" />
-          <NavigationProperty Name="Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Factura" FromRole="Producto_Factura" ToRole="Factura" />
-          <NavigationProperty Name="Producto" Relationship="NaturalMendModel.FK_Producto_Factura_Productos" FromRole="Producto_Factura" ToRole="Producto" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK_Producto_Factura_Factura" FromRole="Producto_Factura" ToRole="Factura" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Factura_Productos" FromRole="Producto_Factura" ToRole="Productos" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Producto_Factura" Relationship="NaturalMendModel.FK_Producto_Factura_Productos" FromRole="Producto" ToRole="Producto_Factura" />
           <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Producto_Factura" Relationship="Self.FK_Producto_Factura_Productos" FromRole="Productos" ToRole="Producto_Factura" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IDRol" />
+          </Key>
+          <Property Name="IDRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -240,68 +260,42 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IDRole" Type="Int32" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Rol" Relationship="NaturalMendModel.FK_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="TokenRecuperacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
         </EntityType>
-        <EntityContainer Name="NaturalMendEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Clientes" EntityType="Self.Cliente" />
-          <EntitySet Name="Facturas" EntityType="Self.Factura" />
-          <EntitySet Name="Producto_Factura" EntityType="Self.Producto_Factura" />
-          <EntitySet Name="Productos" EntityType="Self.Producto" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
-          <EntitySet Name="Rols" EntityType="NaturalMendModel.Rol" />
-          <AssociationSet Name="FK_Producto_Factura_Cliente" Association="NaturalMendModel.FK_Producto_Factura_Cliente">
-            <End Role="Cliente" EntitySet="Clientes" />
-            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Producto_Factura_Factura" Association="NaturalMendModel.FK_Producto_Factura_Factura">
-            <End Role="Factura" EntitySet="Facturas" />
-            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Producto_Factura_Productos" Association="NaturalMendModel.FK_Producto_Factura_Productos">
-            <End Role="Producto" EntitySet="Productos" />
-            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Usuario_Rol" Association="NaturalMendModel.FK_Usuario_Rol">
-            <End Role="Rol" EntitySet="Rols" />
-            <End Role="Usuario" EntitySet="Usuarios" />
-          </AssociationSet>
-          <EntitySet Name="CondicionFacturas" EntityType="NaturalMendModel.CondicionFactura" />
-          <AssociationSet Name="FK_Factura_CondicionFactura" Association="NaturalMendModel.FK_Factura_CondicionFactura">
-            <End Role="CondicionFactura" EntitySet="CondicionFacturas" />
-            <End Role="Factura" EntitySet="Facturas" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="Rol">
-          <Key>
-            <PropertyRef Name="IDRol" />
-          </Key>
-          <Property Name="IDRol" Type="Int32" Nullable="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Usuarios" Relationship="NaturalMendModel.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
-        </EntityType>
-        <Association Name="FK_Producto_Factura_Cliente">
-          <End Type="NaturalMendModel.Cliente" Role="Cliente" Multiplicity="1" />
-          <End Type="NaturalMendModel.Producto_Factura" Role="Producto_Factura" Multiplicity="*" />
+        <Association Name="FK_Factura_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cliente">
               <PropertyRef Name="IdCliente" />
             </Principal>
-            <Dependent Role="Producto_Factura">
+            <Dependent Role="Factura">
               <PropertyRef Name="IDCliente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Factura_CondicionFactura">
+          <End Role="CondicionFactura" Type="Self.CondicionFactura" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CondicionFactura">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="IdCondicion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Producto_Factura_Factura">
-          <End Type="NaturalMendModel.Factura" Role="Factura" Multiplicity="1" />
-          <End Type="NaturalMendModel.Producto_Factura" Role="Producto_Factura" Multiplicity="*" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
+          <End Role="Producto_Factura" Type="Self.Producto_Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Factura">
               <PropertyRef Name="IdFactura" />
@@ -312,10 +306,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Producto_Factura_Productos">
-          <End Type="NaturalMendModel.Producto" Role="Producto" Multiplicity="1" />
-          <End Type="NaturalMendModel.Producto_Factura" Role="Producto_Factura" Multiplicity="*" />
+          <End Role="Productos" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Producto_Factura" Type="Self.Producto_Factura" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Producto">
+            <Principal Role="Productos">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Producto_Factura">
@@ -324,8 +318,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Usuario_Rol">
-          <End Type="NaturalMendModel.Rol" Role="Rol" Multiplicity="1" />
-          <End Type="NaturalMendModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Rol">
               <PropertyRef Name="IDRol" />
@@ -335,26 +329,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CondicionFactura">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Facturas" Relationship="NaturalMendModel.FK_Factura_CondicionFactura" FromRole="CondicionFactura" ToRole="Factura" />
-        </EntityType>
-        <Association Name="FK_Factura_CondicionFactura">
-          <End Type="NaturalMendModel.CondicionFactura" Role="CondicionFactura" Multiplicity="1" />
-          <End Type="NaturalMendModel.Factura" Role="Factura" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CondicionFactura">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Factura">
-              <PropertyRef Name="IdCondicion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityContainer Name="NaturalMendEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clientes" EntityType="Self.Cliente" />
+          <EntitySet Name="CondicionFacturas" EntityType="Self.CondicionFactura" />
+          <EntitySet Name="Facturas" EntityType="Self.Factura" />
+          <EntitySet Name="Producto_Factura" EntityType="Self.Producto_Factura" />
+          <EntitySet Name="Productos" EntityType="Self.Producto" />
+          <EntitySet Name="Rols" EntityType="Self.Rol" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_Factura_Cliente" Association="Self.FK_Factura_Cliente">
+            <End Role="Cliente" EntitySet="Clientes" />
+            <End Role="Factura" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factura_CondicionFactura" Association="Self.FK_Factura_CondicionFactura">
+            <End Role="CondicionFactura" EntitySet="CondicionFacturas" />
+            <End Role="Factura" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Factura_Factura" Association="Self.FK_Producto_Factura_Factura">
+            <End Role="Factura" EntitySet="Facturas" />
+            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Factura_Productos" Association="Self.FK_Producto_Factura_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Producto_Factura" EntitySet="Producto_Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
+            <End Role="Rol" EntitySet="Rols" />
+            <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -372,38 +376,55 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CondicionFacturas">
+            <EntityTypeMapping TypeName="NaturalMendModel.CondicionFactura">
+              <MappingFragment StoreEntitySet="CondicionFactura">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Facturas">
             <EntityTypeMapping TypeName="NaturalMendModel.Factura">
               <MappingFragment StoreEntitySet="Factura">
-                <ScalarProperty Name="IdCondicion" ColumnName="IdCondicion" />
-                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
                 <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="IVA" ColumnName="IVA" />
                 <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+                <ScalarProperty Name="IdCondicion" ColumnName="IdCondicion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="IDCliente" ColumnName="IDCliente" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Producto_Factura">
             <EntityTypeMapping TypeName="NaturalMendModel.Producto_Factura">
               <MappingFragment StoreEntitySet="Producto_Factura">
-                <ScalarProperty Name="IDCliente" ColumnName="IDCliente" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="IDProducto" ColumnName="IDProducto" />
                 <ScalarProperty Name="IDFactura" ColumnName="IDFactura" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Productos">
             <EntityTypeMapping TypeName="NaturalMendModel.Producto">
               <MappingFragment StoreEntitySet="Productos">
-                <ScalarProperty Name="Foto" ColumnName="Foto" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rols">
+            <EntityTypeMapping TypeName="NaturalMendModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="IDRol" ColumnName="IDRol" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -421,29 +442,13 @@
           <EntitySetMapping Name="Usuarios">
             <EntityTypeMapping TypeName="NaturalMendModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
-                <ScalarProperty Name="TokenRecuperacion" ColumnName="TokenRecuperacion" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="IDRole" ColumnName="IDRole" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Rols">
-            <EntityTypeMapping TypeName="NaturalMendModel.Rol">
-              <MappingFragment StoreEntitySet="Rol">
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="IDRol" ColumnName="IDRol" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CondicionFacturas">
-            <EntityTypeMapping TypeName="NaturalMendModel.CondicionFactura">
-              <MappingFragment StoreEntitySet="CondicionFactura">
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="TokenRecuperacion" ColumnName="TokenRecuperacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -463,7 +468,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>

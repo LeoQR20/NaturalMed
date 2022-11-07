@@ -14,12 +14,11 @@ namespace Infraestructura.Repository
         {
             try
             {
-
                 IEnumerable<CondicionFactura> lista = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    lista = ctx.CondicionFacturas.Include("Factura").ToList<CondicionFactura>();
+                    lista = ctx.CondicionFacturas.Include("Facturas").ToList<CondicionFactura>();
                 }
                 return lista;
             }
@@ -43,13 +42,11 @@ namespace Infraestructura.Repository
             CondicionFactura conFactura = null;
             try
             {
-
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     conFactura = ctx.CondicionFacturas.Find(id);
                 }
-
                 return conFactura;
             }
             catch (DbUpdateException dbEx)
