@@ -341,7 +341,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="CSS\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Orden\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

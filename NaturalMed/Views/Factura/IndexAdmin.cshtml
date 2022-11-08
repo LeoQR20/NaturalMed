@@ -20,9 +20,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.FechaCreacion)
                     </th>
-                    <th class="d-none d-sm-block">
-                            @Html.DisplayNameFor(model => model.Cliente.Nombre)
-                        </th>
+
                     <th>
                         @Html.DisplayNameFor(model => model.IdCondicion)
                     </th>
@@ -41,6 +39,7 @@
                         <td>
                             @Convert.ToDateTime(item.FechaCreacion).ToString("dd/MM/yyyy")
                         </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.CondicionFactura.Descripcion)
                         </td>
@@ -81,3 +80,4 @@
     @Scripts.Render("~/bundles/jqueryajax")
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    }

@@ -61,7 +61,7 @@ namespace NaturalMed.Controllers
             ViewBag.DetalleOrden = ViewModelCarrito.Instancia.Items;
             TempData["NotiCarrito"] = ViewModelCarrito.Instancia.SetItemCantidad(productoID, cantidad);
             TempData.Keep();
-            return PartialView("_DetalleOrden", ViewModelCarrito.Instancia.Items);
+            return PartialView("DetalleOrden", ViewModelCarrito.Instancia.Items);
 
         }
 

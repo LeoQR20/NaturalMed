@@ -20,8 +20,9 @@ namespace Infraestructura.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    facturaList = ctx.Facturas.
-                        Include("Producto_Factura").OrderByDescending(x => x.IdFactura).ToList<Factura>();
+                    facturaList = ctx.Facturas.Include("Cliente").
+                        Include("CondicionFactura").Include("Producto_Factura").
+                        OrderByDescending(x => x.IdFactura).ToList<Factura>();
                 }
                 return facturaList;
             }
@@ -58,8 +59,10 @@ namespace Infraestructura.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    factura = ctx.Facturas.
-                        Include("Producto_Factura").Where(p => p.IdFactura == id).FirstOrDefault<Factura>();
+                    factura = ctx.Facturas.Include("Cliente").
+                        Include("Producto_Factura.Producto").
+                        Include("CondicionFactura").
+                        Where(p => p.IdFactura == id).FirstOrDefault<Factura>();
                 }
                 return factura;
             }
@@ -128,25 +131,6 @@ namespace Infraestructura.Repository
             Factura oFactura = null;
             try
             {
-                //using (MyContext ctx = new MyContext())
-                //{
-                //    using (var transaccion = ctx.Database.BeginTransaction())
-                //    {
-                //        ctx.Facturas.Add(factura);
-                //        retorno = ctx.SaveChanges();
-                //        foreach (var detatalle in factura.Producto_Factura)
-                //        {
-                //            detatalle.IDFactura = factura.IdFactura;
-                //        }
-                //        transaccion.Commit();
-                //    }
-                //}
-                //if (retorno >= 0 )
-
-                //    oFactura = GetFacturaById(factura.IdFactura);
-
-                //return oFactura;
-
                 using (MyContext ctx = new MyContext())
                 {
 
