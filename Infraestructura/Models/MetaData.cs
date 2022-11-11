@@ -79,10 +79,16 @@ namespace Infraestructura.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
         public Nullable<decimal> IVA { get; set; }
 
-        public Nullable<bool> EstadoFactura { get; set; }
+        public Nullable<int > IdCondicion { get; set; }
 
         [Display(Name = "Fecha de Creación")]
         public Nullable<System.DateTime> FechaCreacion { get; set; }
+
+        [Display(Name = "Cliente")]
+        public virtual Cliente Cliente { get; set; }
+
+        [Display(Name = "Detalle Orden")]
+        public virtual ICollection<Producto_Factura> FacturaDetalle { get; set; }
     }
     internal partial class ClienteMetaData
     {
@@ -92,13 +98,17 @@ namespace Infraestructura.Models
         [Display(Name = "Nombre Cliente")]
         public string Nombre { get; set; }
 
+        [Display(Name = "Apellidos Cliente")]
         public string Apellidos{ get; set; }
 
         public string Sexo { get; set; }
         public string Telefono { get; set; }
+
+        [Display(Name = "Correo Electronico")]
         public string email { get; set; }
 
         public virtual ICollection<Factura> Facturas { get; set; }
     }
+
 }
 

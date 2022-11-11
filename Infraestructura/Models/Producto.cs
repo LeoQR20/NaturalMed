@@ -25,7 +25,7 @@ namespace Infraestructura.Models
         public decimal Precio { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
-        public int Cantidad { get; set; }
+        public Nullable<int> Cantidad { get; set; }
         public byte[] Foto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

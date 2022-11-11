@@ -20,7 +20,12 @@
                         @Html.DisplayNameFor(model => model.Precio):&cent; @Html.DisplayFor(model => item.Precio)
 
                     </p>
-                    @Ajax.ActionLink("Ordenar",//Texto para el usuario
+                    <a href="@Url.Action("SaveCarrito", "Producto", new { id = item.ID})">
+                        <button type="button" class="btn btn-primary btnMant">
+                            <img src="~/Images/shopping-cart.png" style="height: 30px; width: auto; margin-right:10px" alt="Alternate Text" />Añadir al carrito
+                        </button>
+                    </a>
+                    @*@Ajax.ActionLink("Ordenar",//Texto para el usuario
                                 "ordenarProducto",//Acción a llamar
                                 "Factura",
                                 new
@@ -33,12 +38,14 @@
                                     InsertionMode = InsertionMode.Replace,
                                     HttpMethod = "GET",
                                 }, new { @class = "btn btn-primary" }
-                                )
+                                )*@
                 </div>
             </div>
         </div>
     }
 </div>
+
+<h5>Medio de pago via sinpe móvil</h5>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryajex")

@@ -4,9 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Infraestructura.Repository
 {
@@ -59,7 +63,7 @@ namespace Infraestructura.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    factura = ctx.Facturas.Include("Cliente").
+                    factura = ctx.Facturas.Include("Cliente").Include("Producto").
                         Include("Producto_Factura.Producto").
                         Include("CondicionFactura").
                         Where(p => p.IdFactura == id).FirstOrDefault<Factura>();
@@ -103,7 +107,7 @@ namespace Infraestructura.Repository
                         fecha2 = fecha2.AddDays(1);
                     }
 
-                    lista = ctx.Facturas.Include("Producto_Factura").
+                    lista = ctx.Facturas.Include("Producto_Factura").Include("Cliente").Include("CondicionFactura").
                                Where(p => p.FechaCreacion >= fecha1 && p.FechaCreacion <= fecha2).
                                OrderBy(p => p.FechaCreacion).
                                ToList<Factura>();
@@ -165,5 +169,49 @@ namespace Infraestructura.Repository
                 throw;
             }
         }
+
+        //public string HtmlBody(Factura factura)
+        //{
+        //    Producto producto = null;
+        //    return "<body style=\"color: black\">" +
+        //            "<h1 style=\"color: black\">Estimado Cliente:\r\nAdjunto a este correo encontrara un comprobante electrónico en formato XML y" +
+        //            "su correspondiente representación en formato pdf, por concepto de facturación de Natural Mend.\r\n</h1>" + "<br />" +
+        //            "<h2 style=\"color: black\">Detalles de la Compra:</h2>" +
+        //            "<li style=\"color: black\"> Numero de Factura: " + factura.IdFactura.ToString() + "</ li >" +
+        //            "<li style=\"color: black\"> Nombre: " + factura.Cliente.Nombre + "</ li >" +
+        //            "<li style=\"color: black\"> Apellidos: " + factura.Cliente.Apellidos + "</ li >" +
+        //            "<li style=\"color: black\"> Telefono: " + factura.Cliente.Telefono + "</ li >" +
+        //            "<li style=\"color: black\"> Descripcion: " + producto.Descripcion + "</ li >" +
+        //           "<li style=\"color: black\"> Descripcion: " + producto.Cantidad + "</ li >" +
+        //           "<li style=\"color: black\"> Descripcion: " + factura.Total + "</ li >" +                    
+        //            "<br />" +
+        //           "*Este es un mensaje auto-generado, por favor no responder*" + "<br />" +
+        //            "-Enviado el " + DateTime.Now.ToShortDateString() + "</i>" +
+        //            "</body>";
+        //}
+        //public void SendEmail(Factura factura)
+        //{
+        //    try
+        //    {
+        //        MailMessage message = new MailMessage();
+        //        SmtpClient smtp = new SmtpClient();
+        //        message.From = new MailAddress("Prac_Profesional22@outlook.com");
+        //        message.To.Add(new MailAddress(factura.Cliente.email));
+        //        message.Subject = factura.IdFactura + " Gracias por su compra en Natural Mend";
+        //        message.IsBodyHtml = true; //to make message body as html  
+        //        message.Body = HtmlBody(factura);
+        //        smtp.Port = 587;
+        //        smtp.Host = "smtp-mail.outlook.com"; //for outlook host  
+        //        smtp.EnableSsl = true;
+        //        smtp.UseDefaultCredentials = false;
+        //        smtp.Credentials = new NetworkCredential("Prac_Profesional22@outlook.com", "Lqr200698");
+        //        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //        smtp.Send(message);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //    }
+        //}
     }
 }

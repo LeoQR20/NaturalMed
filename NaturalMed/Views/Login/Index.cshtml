@@ -17,7 +17,7 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal" id="formulario" align="center">
+    <div class="form-horizontal needs-validation" id="formulario" align="center" novalidate>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })

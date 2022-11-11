@@ -25,8 +25,8 @@ namespace Infraestructura.Models
         public decimal IVA { get; set; }
         public int IdFactura { get; set; }
         public int IdCondicion { get; set; }
-        public System.DateTime FechaCreacion { get; set; }
-        public int IDCliente { get; set; }
+        public Nullable<System.DateTime> FechaCreacion { get; set; }
+        public Nullable<int> IDCliente { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual CondicionFactura CondicionFactura { get; set; }

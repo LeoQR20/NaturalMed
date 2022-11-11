@@ -33,13 +33,13 @@ namespace NaturalMed.ViewModels
             return this.Precio * this.Cantidad;
         }
 
-        public decimal Total
-        {
-            get
-            {
-                return calculoSubtotal();
-            }
-        }
+        //public decimal Total
+        //{
+        //    get
+        //    {
+        //        return calculoSubtotal();
+        //    }
+        //}
 
         //private decimal total()
         //{

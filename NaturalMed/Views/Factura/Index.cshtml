@@ -10,7 +10,7 @@
     <div style="margin-top:0%; margin-bottom:0%;">
         <h2>Orden </h2>
         <hr />
-        <div class="form-horizontal">
+        <div class="form-horizontal needs-validation" novalidate>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -34,15 +34,15 @@
                         </div>
                         <hr />
                         <h3 style="margin-top: 1%">Información del Cliente</h3>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Cliente.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="form-group needs-validation" novalidate>
+                            @Html.LabelFor(model => model.Cliente.Nombre, htmlAttributes: new { @class = "control-label col-md-2 Nombre" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Cliente.Nombre, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Cliente.Nombre, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Cliente.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Cliente.Apellidos, htmlAttributes: new { @class = "control-label col-md-2 Apellidos" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Cliente.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Cliente.Apellidos, "", new { @class = "text-danger" })
@@ -73,7 +73,7 @@
                         @if (NaturalMed.ViewModels.ViewModelCarrito.Instancia.Items.Count() > 0)
                         {
                             <h3>Resumen de la Orden</h3>
-                            @Html.Partial("~/Views/Factura/DetalleOrden.cshtml", (List<NaturalMed.ViewModels.ViewModelFacturaDetalle>)ViewBag.FacturaProducto)
+                            @Html.Partial("~/Views/Factura/_DetalleOrden.cshtml", (List<NaturalMed.ViewModels.ViewModelFacturaDetalle>)ViewBag.FacturaProducto)
                         }
                         else
                         {
@@ -85,7 +85,11 @@
                             </div>
                         }
                     </div>
+                    <br />
+                    <br />
                 </div>
+   
+                <br />
                 <div class="col-md-12">
                     @* Enviar mensaje y guardar orden *@
                     <!-- Submit -->
@@ -102,7 +106,7 @@
                 if (NaturalMed.ViewModels.ViewModelCarrito.Instancia.Items.Count() > 0)
                 {
                     decimal total = NaturalMed.ViewModels.ViewModelCarrito.Instancia.GetTotal();
-                    decimal ivaTotal = NaturalMed.ViewModels.ViewModelCarrito.Instancia.GetImpuesto();
+                    //decimal ivaTotal = NaturalMed.ViewModels.ViewModelCarrito.Instancia.GetImpuesto();
                     int numOrden = NaturalMed.ViewModels.ViewModelCarrito.Instancia.Items[0].getUltimaOrdenId();
 
                     string mensaje = "Orden: # *" + numOrden + "*%0A" +
@@ -116,8 +120,7 @@
                             "%0APrecio: ₡" + item.Precio.ToString("##,00.00") +
                             "%0ASubtotal: ₡" + item.SubTotal.ToString("##,00.00") + "%0A%0A";
                     }
-                    mensaje += "Total IVA: ₡" + ivaTotal.ToString("##,00.00") +
-                        "%0A%0A✅ *Total Final: ₡" + total.ToString("##,00.00") + "* ✅";
+                    mensaje += "%0A%0A✅ *Total Final: ₡" + total.ToString("##,00.00") + "* ✅";
 
                     <textarea id="mensaje" style="display: none; white-space: pre-wrap">@mensaje</textarea>
                 }
@@ -136,9 +139,8 @@
     @* Método para obtener el texto del mensaje *@
     <script>
         function enviarMensaje() {
-
-            var nombre = document.getElementById("NombreCliente").value;
-            var apellidos = document.getElementById("ApellidosCliente").value;
+            var nombre = document.getElementsByClassName("Nombre").value;
+            var apellidos = document.getElementsByClassName("Apellidos").value;
             if (nombre != "" && apellidos != "") {
 
                 var texto = "*Resumen de la Orden* 📝%0A%0A" +
@@ -175,7 +177,7 @@
             $.ajax({
                 type: "GET",
                 dataType: 'text',
-                url: "/Orden/actualizarCantidad",
+                url: "/Factura/actualizarCantidad",
                 data: { "productoID": id, "cantidad": cantidad },
                 success: function (data) {
                     $("#resultadoDetalle").html('');
@@ -191,7 +193,7 @@
             $.ajax({
                 type: "GET",
                 dataType: 'text',
-                url: "/Orden/actualizarFacturaCantidad",
+                url: "/Factura/actualizarFacturaCantidad",
                 success: function (data) {
                     $("#cantidadProductos").html('');
                     $("#cantidadProductos").html(data);

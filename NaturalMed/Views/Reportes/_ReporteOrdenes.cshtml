@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Infraestructura.Models.Factura>
+
+<h3>Lista de Órdenes</h3>
+
+<p>
+    @Html.ActionLink("Descargar PDF", "CreatePdfOrdenCatalogo", "Reportes")
+</p>
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDCliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cliente.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cliente.Apellidos)
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaCreacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.CondicionFactura.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IDCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Apellidos)
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+                @Convert.ToDateTime(item.FechaCreacion).ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CondicionFactura.Descripcion)
+            </td>
+        </tr>
+    }
+
+</table>
+

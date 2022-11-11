@@ -44,6 +44,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="XMLhelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XMLHelper.1.0.1\lib\XMLhelper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,12 +54,14 @@
     <Compile Include="Services\ICondicionFactura.cs" />
     <Compile Include="Services\IFactura.cs" />
     <Compile Include="Services\IProducto.cs" />
+    <Compile Include="Services\IRespaldo.cs" />
     <Compile Include="Services\IRol.cs" />
     <Compile Include="Services\IUsuario.cs" />
     <Compile Include="Services\ServiceCliente.cs" />
     <Compile Include="Services\ServiceCondicionFactura.cs" />
     <Compile Include="Services\ServiceFactura.cs" />
     <Compile Include="Services\ServiceProducto.cs" />
+    <Compile Include="Services\ServiceRespaldo.cs" />
     <Compile Include="Services\ServiceRol.cs" />
     <Compile Include="Services\ServiceUsuario.cs" />
     <Compile Include="Util\Cryptography.cs" />

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using NaturalMed.Security;
 using NaturalMed.Utils;
+using NaturalMed.ViewModels;
 
 namespace NaturalMed.Controllers
 {
@@ -18,8 +19,8 @@ namespace NaturalMed.Controllers
 
         // Significa  que solo los que tienen el rol de Administrador pueden accederla 
         // ver Enums.cs  
-        // public enum Roles { Administrador = 1, Cliente = 2}
-        //[CustomAuthorize((int)Roles.Administrador)]
+        // public enum Roles { Administrador = 1}
+        [CustomAuthorize((int)Roles.Administrador)]
         // GET: Producto
         
         public ActionResult AdminProducto()
@@ -199,6 +200,13 @@ namespace NaturalMed.Controllers
                 return RedirectToAction("AdminProducto", "Producto");
             }
         }
+
+        public ActionResult SaveCarrito(int? id)
+        {
+            ViewModelCarrito.Instancia.AgregarItem((int)id);
+            TempData["NotificationMessage"] = SweetAlertHelper.Mensaje("Aviso", "Producto añadido correctamente al carrito", SweetAlertMessageType.success);
+            return RedirectToAction("ClienteProducto", "Producto");
+        }
         // GET: Producto/Edit/5
         [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult Edit(int? id)
@@ -266,5 +274,7 @@ namespace NaturalMed.Controllers
         //    return PartialView("BuscarProducto", lista);
 
         //}
+        //Actualizar solo la cantidad de productos que se muestra en el menú
+
     }
 }

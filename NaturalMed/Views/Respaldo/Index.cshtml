@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Respaldar Base de Datos";
+}
+<div class="col-md-12" align="center" style="margin-top:5%;">
+    <img class="img img-fluid" width="150" height="150" src="~/Images/respaldo.png" style="margin-bottom:2%;" />
+    <h2>¿Desea crear un respaldo de los datos del sistema?</h2>
+    <p>Nota: Consultar el manual de usuario para más información.</p>
+    <a class="btn btn-primary" href="@Url.Action("guardarRespaldo", "Respaldo")">Crear respaldo</a>
+</div>
+

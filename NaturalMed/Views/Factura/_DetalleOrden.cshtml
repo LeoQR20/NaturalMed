@@ -1,0 +1,94 @@
+﻿@model List<NaturalMed.ViewModels.ViewModelFacturaDetalle>
+@{
+    ViewBag.Title = "Detalle de la Orden";
+}
+
+<div style="margin-top:0%; margin-bottom:10%;">
+    <div class="table-responsive-sm">
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Producto
+                </th>
+                <th class="center">
+                    Cantidad
+                </th>
+                <th class="center">
+                    Precio Unitario
+                </th>
+                <th class="center">
+                    SubTotal
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(modelItem => item.Producto.ID)
+                        @Html.DisplayFor(modelItem => item.Producto.Descripcion)
+                    </td>
+                    <td class="right" style="width:1.5em">
+                        @Html.DisplayFor(modelItem => item.Cantidad, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control changeCantidad",
+                        data_productoid = item.Producto.ID,
+                                onchange = "updateCantidad(this)",
+                                @readonly = "true"
+                            }
+                        })
+                    </td>
+                    <td class="right">
+                        &cent; @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td class="right">
+                        <strong> &cent; @Html.DisplayFor(modelItem => item.SubTotal) </strong>
+                    </td>
+                    <td>
+                        @Ajax.ActionLink("Eliminar",//Texto para el usuario
+                            "eliminarProducto",//Acción a llamar
+                            "Factura",
+                            new
+                            {
+                                productoID = item.ProductoId
+                            },//Parámetros a enviar
+                            new AjaxOptions
+                            {
+                                UpdateTargetId = "resultadoDetalle",
+                                InsertionMode = InsertionMode.Replace,
+                                HttpMethod = "GET",
+                                OnComplete = "updateCantProductos()"
+                            }, new { @class = "btn btn-primary" }
+                            )
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 col-sm-5"></div>
+        <div class="col-lg-7 col-sm-5 ml-auto">
+            <table class="table table-clear">
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="left">
+                            <strong>Total</strong>
+                        </td>
+                        <td class="right">
+                            <strong>@(((decimal)NaturalMed.ViewModels.ViewModelCarrito.Instancia.GetTotal()).ToString("C2"))</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Infraestructura.Models.Factura>
+
+@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+@{
+    string nombre = "";
+    Infraestructura.Models.Usuario oEmpleado;
+    // Validar si vienen datos en la session
+    if (Session["User"] != null)
+    {
+        // Casting
+        oEmpleado = Session["User"] as Infraestructura.Models.Usuario;
+
+        if (oEmpleado != null)
+        {
+            nombre = $"{oEmpleado.ID} {oEmpleado.Nombre}";
+        }
+    }
+}
+
+<h1 style="margin-top: 80px">Natural Mend Inventory</h1>
+<h4 style="color:grey">Creado por: @nombre</h4>
+<h5 style="color:grey">Fecha de creación: @DateTime.Now.ToString("dd 'de' MMMM 'del' yyyy 'a las' HH:mm ")</h5>
+
+<h3 style="margin-top:50px">Lista de órdenes @ViewBag.mesOrdenes</h3>
+<table class="table table-responsive-md" style="margin-top: 10px">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDCliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cliente.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cliente.Apellidos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaCreacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CondicionFactura.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IDCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Apellidos)
+            </td>
+            <td>
+                @Convert.ToDateTime(item.FechaCreacion).ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CondicionFactura.Descripcion)
+            </td>
+        </tr>
+    }
+</table>
+
+
+

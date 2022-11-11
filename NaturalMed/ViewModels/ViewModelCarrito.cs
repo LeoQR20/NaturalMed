@@ -43,7 +43,7 @@ namespace NaturalMed.ViewModels
             String mensaje = "";
             // Crear un nuevo artículo para agregar al ViewModelCarrito
             ViewModelFacturaDetalle nuevoItem = new ViewModelFacturaDetalle(ProductoId);
-            // Si este artículo ya existe en lista de libros, aumente la Cantidad
+            // Si este artículo ya existe en lista de productos, aumente la Cantidad
             // De lo contrario, agregue el nuevo elemento a la lista
             if (nuevoItem != null)
             {
@@ -112,13 +112,13 @@ namespace NaturalMed.ViewModels
             return mensaje;
 
         }
-        public decimal GetSubTotal()
-        {
-            decimal subtotal = 0;
-            subtotal = Items.Sum(x => x.SubTotal);
+        //public decimal GetSubTotal()
+        //{
+        //    decimal subtotal = 0;
+        //    subtotal = Items.Sum(x => x.SubTotal);
 
-            return subtotal;
-        }
+        //    return subtotal;
+        //}
 
 
         /**
@@ -146,12 +146,12 @@ namespace NaturalMed.ViewModels
 
         }
 
-        public decimal GetImpuesto()
-        {
-            decimal impuesto = 0;
-            impuesto = GetSubTotal() * 0.13M;
-            return impuesto;
-            //return (decimal)(Items.Sum(x => x.Producto.Precio));
-        }
+        //public decimal GetImpuesto()
+        //{
+        //    decimal impuesto = 0;
+        //    impuesto = GetSubTotal() * 0.13M;
+        //    return impuesto;
+        //    //return (decimal)(Items.Sum(x => x.Producto.Precio));
+        //}
     }
 }

@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Respaldo Exitoso";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-horizontal" style="margin-top:8%; margin-bottom: 8%" align="center">
+    <h2 style=" padding-top: 2%;">¡Respaldo creado con éxito! El archivo estará en su carpeta de Descargas.</h2>
+    <div class="form-group">
+        <div class="col-md-10">
+            <img class="img img-responsive" src="@Url.Content("~/Images/check-green.gif")" width="200" height="200" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <p>
+                <b>
+                    Natural Mend Inventory
+                </b>
+            </p>
+            <br />
+            <p>
+                <a href="@Url.Action("ClienteProducto", "Producto")">Volver al Inicio</a>
+            </p>
+        </div>
+    </div>
+</div>
+

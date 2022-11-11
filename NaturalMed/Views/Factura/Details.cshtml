@@ -28,7 +28,12 @@
             <dd>
                 @{var NombreCompleto = Model.Cliente.Nombre + " " + Model.Cliente.Apellidos;}
                 @Html.DisplayFor(model => NombreCompleto)
-                
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Cliente.email):
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Cliente.email)
             </dd>
         </dl>
         <br />
@@ -43,7 +48,7 @@
                     Cantidad
                 </th>
                 <th>
-                    Precio
+                    Precio Unitario
                 </th>
             </tr>
             @foreach (var item in Model.Producto_Factura)
@@ -66,7 +71,7 @@
             <div class="col-lg-7 col-sm-5 ml-auto">
                 <table class="table table-clear">
                     <tbody>
-                        <tr>
+                        @*<tr>
                             <td class="left">
                                 <strong>Impuesto</strong>
                             </td>
@@ -81,7 +86,7 @@
                             <td class="right">
                                 <strong>&cent;@Html.DisplayFor(model => model.SubTotal)</strong>
                             </td>
-                        </tr>
+                        </tr>*@
                         <tr>
                             <td class="left">
                                 <strong>Total</strong>

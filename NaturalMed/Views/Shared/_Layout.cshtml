@@ -37,15 +37,16 @@
                                     </div>
                                 </li>
                                 @*<li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administración</a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="@Url.Action("List", "Empleado")">Control de Empleados</a>
-                                    </div>
-                                </li>*@
+                            <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administración</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="@Url.Action("List", "Empleado")">Control de Empleados</a>
+                            </div>
+                        </li>*@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Procesos</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="@Url.Action("IndexAdmin", "Factura")">Administración de Órdenes</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Respaldo")">Creación de Respaldos</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -59,7 +60,10 @@
                     }
                 }
                 <li class="nav-item">
-                    <a class="nav-link text-dark" id="menu" href="@Url.Action("ClienteProducto", "Producto", new { id = "menu" })" )">Catálogo</a>
+                    <a class="nav-link text-white" id="menu" href="@Url.Action("ClienteProducto", "Producto", new { id = "menu" })" )">Catálogo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" id="menu" href="@Url.Action("Index", "Factura", new { id = "menu" })" )">Orden</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
