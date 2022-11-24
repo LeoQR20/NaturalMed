@@ -3,6 +3,7 @@
     ViewBag.Title = "Detalle de la Orden";
 }
 
+
 <div style="margin-top:0%; margin-bottom:10%;">
     <div class="table-responsive-sm">
         <table class="table table-striped">
@@ -19,6 +20,7 @@
                 <th class="center">
                     SubTotal
                 </th>
+                <th></th>
             </tr>
             @foreach (var item in Model)
             {
@@ -34,8 +36,7 @@
                             {
                                 @class = "form-control changeCantidad",
                         data_productoid = item.Producto.ID,
-                                onchange = "updateCantidad(this)",
-                                @readonly = "true"
+                                onchange = "updateCantidad(this)"
                             }
                         })
                     </td>
@@ -73,9 +74,7 @@
             <table class="table table-clear">
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+
                         <td class="left">
                             <strong>Total</strong>
                         </td>
@@ -87,6 +86,7 @@
             </table>
         </div>
     </div>
+
 </div>
 
 @section Scripts {

@@ -16,6 +16,7 @@ namespace AppCore.Services
         Usuario Save(Usuario usuario);
         Usuario VerificarUsuario(string email);
         Usuario GetUsuarioByToken(string token);
+        void DeshabilitarUsuario(int id);
 
 
     }

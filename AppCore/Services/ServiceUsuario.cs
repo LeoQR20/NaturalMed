@@ -16,7 +16,7 @@ namespace AppCore.Services
         public Usuario GetUsuario(int Id, string password)
         {
             IRepositoryUsuario repository = new RepositoryUsuario();
-            string crytpPasswd = Cryptography.EncrypthAES(password);
+            //string crytpPasswd = Cryptography.EncrypthAES(password);
             return repository.GetUsuario(Id, password);
         }
 
@@ -24,7 +24,7 @@ namespace AppCore.Services
         {
             IRepositoryUsuario repository = new RepositoryUsuario();
             Usuario oUsuario = repository.GetUsuarioByID(id);
-            oUsuario.Password = Cryptography.DecrypthAES(oUsuario.Password);
+            //oUsuario.Password = Cryptography.DecrypthAES(oUsuario.Password);
             return oUsuario;
         }
 
@@ -37,24 +37,9 @@ namespace AppCore.Services
         public Usuario Save(Usuario usuario)
         {
             RepositoryUsuario repositoryUsuario = new RepositoryUsuario();
-            Usuario auxUsuario  = repositoryUsuario.GetUsuarioByID(usuario.ID);
-            if (auxUsuario !=null)
-            {
-                if (auxUsuario.Password.Equals(usuario.Password))
-                {
-                    //Desencripta la contraseña para prevenir errores durante el proceso de recuperación
-                    usuario.Password = Cryptography.DecrypthAES(usuario.Password);
-                }
-            }
-
-            //Encripta la contraseña y la envía a la base de datos
-            usuario.Password = Cryptography.EncrypthAES(usuario.Password);
-
+            //Usuario auxUsuario  = repositoryUsuario.GetUsuarioByID(usuario.ID);
             return repositoryUsuario.Save(usuario);
 
-            //IRepositoryUsuario repository = new RepositoryUsuario();
-            //usuario.Password = Cryptography.DecrypthAES(usuario.Password);
-            //return repository.Save(usuario);
         }
 
         public Usuario VerificarUsuario(string email)
@@ -67,6 +52,11 @@ namespace AppCore.Services
         {
             IRepositoryUsuario repository = new RepositoryUsuario();
             return repository.GetEmpleadoByToken(token);
+        }
+        public void DeshabilitarUsuario(int id)
+        {
+            IRepositoryUsuario repository = new RepositoryUsuario();
+            repository.DeshabilitarUsuario(id);
         }
     }
 }

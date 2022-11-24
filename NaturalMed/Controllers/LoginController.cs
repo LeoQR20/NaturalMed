@@ -86,19 +86,23 @@ namespace NaturalMed.Controllers
             }
         }
 
-        public ActionResult Recuperacion(LoginViewModel usuario)
+        public ActionResult Recuperacion(string token)
         {
+            IUsuario service = new ServiceUsuario();
             try
-            {
-                IUsuario service = new ServiceUsuario();
-                Usuario oUsuario = service.VerificarUsuario(usuario.Email);
-
-                if (oUsuario != null)
+            {            
+                if (token == null || token.Trim().Equals(""))
                 {
-                    service.Save(oUsuario);
+                    return View("Index");
                 }
-
-                return View("NotificacionEmail");
+                Usuario usuario = service.GetUsuarioByToken(token);
+                if (usuario == null)
+                {
+                    ViewBag.Error = "Tu token ha expirado";
+                    return View("Index");
+                }
+                aux = usuario;
+                return View();
 
             }
             catch (Exception ex)
@@ -177,6 +181,34 @@ namespace NaturalMed.Controllers
         public ActionResult IniciarRecuperacion()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult IniciarRecuperacion(LoginViewModel empleado)
+        {
+            try
+            {
+                IUsuario service = new ServiceUsuario();
+                Usuario oEmpleado = service.VerificarUsuario(empleado.Email);
+
+                if (oEmpleado != null)
+                {
+                    service.Save(oEmpleado);
+                }
+
+                return View("NotificacionEmail");
+
+            }
+            catch (Exception ex)
+            {
+
+                // Salvar el error en un archivo 
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                // Pasar el Error a la página que lo muestra
+                TempData["Message"] = ex.Message;
+                TempData.Keep();
+                return RedirectToAction("Default", "Error");
+            }
+
         }
         public ActionResult UnAuthorized()
         {

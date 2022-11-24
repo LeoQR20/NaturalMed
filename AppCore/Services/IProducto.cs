@@ -14,7 +14,7 @@ namespace AppCore.Services
         void DeleteProducto(int id);
         IEnumerable<Producto> GetProductos();
         IEnumerable<Producto> GetProductosByNombre(string nombre);
-        Producto updatePositions(int Id);
+        Producto updatePositions(int Id, int cantidad);
 
 
     }

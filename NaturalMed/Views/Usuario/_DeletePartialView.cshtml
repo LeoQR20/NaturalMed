@@ -1,0 +1,57 @@
+﻿@model Infraestructura.Models.Usuario
+
+<h3>¿Desea desactivar a este usuario?</h3>
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ID)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Rol.Descripcion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Rol.Descripcion)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="col-md-8 d-none d-sm-block">
+            <img class="img-fluid" src="~/Images/user.png" width="200" height="250" style="opacity: 70%; margin-left: 12%; margin-top: 15%" />
+        </div>
+    </div>
+
+    @using (Html.BeginForm("DeleteConfirmed", "Usuario", new { id = Model.ID }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Desactivar" class="btn btn-danger" />
+        </div>
+    }
+</div>

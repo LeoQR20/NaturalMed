@@ -51,7 +51,7 @@ namespace Infraestructura.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oUsuario = ctx.Usuarios.
+                    oUsuario = ctx.Usuarios.Include("Rol").
                         Where(p => p.ID.Equals(id) && p.Password == password).
                         FirstOrDefault<Usuario>();
                 }
@@ -83,7 +83,8 @@ namespace Infraestructura.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    usuario = ctx.Usuarios.Include("Rol").Where(p => p.ID == id).FirstOrDefault<Usuario>();
+                    usuario = ctx.Usuarios.Where(p => p.ID == id).Where(p => p.Estado == true).
+                        Include("Rol").FirstOrDefault();
                 }
                 return usuario;
             }
@@ -109,7 +110,7 @@ namespace Infraestructura.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    lista = ctx.Usuarios.ToList<Usuario>();
+                    lista = ctx.Usuarios.Include("Rol").ToList<Usuario>();
                 }
 
                 return lista;
@@ -135,8 +136,11 @@ namespace Infraestructura.Repository
             Usuario oUsuario = null;
             try
             {
+                usuario.Estado = true;
                 using (MyContext ctx = new MyContext())
                 {
+                    //oUsuario.Estado = true;
+
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oUsuario = GetUsuarioByID(usuario.ID);
                     if (oUsuario == null)
@@ -152,6 +156,12 @@ namespace Infraestructura.Repository
                 if (retorno >= 0)
                     oUsuario = GetUsuarioByID(usuario.ID);
                 return oUsuario;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -191,8 +201,8 @@ namespace Infraestructura.Repository
         private void SendEmail(string EmailDestino, string token)
         {
             string urlDomain = "https://localhost:44345/";
-            string EmailOrigen = "quesada.leonardo20@gmail.com";
-            string Contraseña = "lqr200698";
+            string EmailOrigen = "Prac_Profesional22@outlook.com";
+            string Contraseña = "Lqr200698";
             string url = urlDomain + "/Login/Recuperacion/?token=" + token;
             MailMessage oMailMessage = new MailMessage(EmailOrigen, EmailDestino, "Recuperación de Contraseña",
                 "<p>Estimado usuario,</br></br>Ha iniciado el proceso para recuperación de contraseña del sistema NaturalMend Inventory, a continuación se le presentará el link para que proceda a realizar el cambio de su respectiva contraseña.</p><br>" +
@@ -201,7 +211,7 @@ namespace Infraestructura.Repository
 
             oMailMessage.IsBodyHtml = true;
 
-            SmtpClient oSmtpClient = new SmtpClient("smtp.gmail.com");
+            SmtpClient oSmtpClient = new SmtpClient("smtp-mail.outlook.com");
             oSmtpClient.EnableSsl = true;
             oSmtpClient.UseDefaultCredentials = false;
             oSmtpClient.Port = 587;
@@ -254,6 +264,34 @@ namespace Infraestructura.Repository
             {
                 string mensaje = "";
                 Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+        }
+
+        public void DeshabilitarUsuario(int id)
+        {
+            int retorno;
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    Usuario usuario = GetUsuarioByID(id);
+                    usuario.Estado = false;
+                    ctx.Entry(usuario).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Utils.Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Utils.Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
                 throw;
             }
         }

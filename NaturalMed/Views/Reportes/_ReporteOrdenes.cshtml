@@ -1,12 +1,16 @@
 ﻿@model IEnumerable<Infraestructura.Models.Factura>
 
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <h3>Lista de Órdenes</h3>
 
 <p>
     @Html.ActionLink("Descargar PDF", "CreatePdfOrdenCatalogo", "Reportes")
 </p>
 
-<table class="table table-hover">
+<table class="table table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.IDCliente)
@@ -17,17 +21,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Cliente.Apellidos)
         </th>
-        <th></th>
-        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.FechaCreacion)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Total)
         </th>
-        <th></th>
-        <th></th>
-        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.CondicionFactura.Descripcion)
         </th>
@@ -46,17 +45,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Cliente.Apellidos)
             </td>
-            <td></td>
-            <td></td>
             <td>
                 @Convert.ToDateTime(item.FechaCreacion).ToString("dd/MM/yyyy")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
             <td>
                 @Html.DisplayFor(modelItem => item.CondicionFactura.Descripcion)
             </td>
@@ -64,4 +58,8 @@
     }
 
 </table>
+
+<h5>
+    @Html.ActionLink("Regresar", "ReporteOrdenes")
+</h5>
 

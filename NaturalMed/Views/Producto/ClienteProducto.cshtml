@@ -1,54 +1,107 @@
-﻿@model IEnumerable<Infraestructura.Models.Producto>
+﻿<div>
+    @model IEnumerable<Infraestructura.Models.Producto>
 
-@{
-    ViewBag.Title = "Catalogo";
-}
+    @{
+        ViewBag.Title = "Catalogo";
+    }
 
-<h2>Catalogo</h2>
+    <h2 class="text-center">Catálogo</h2>
 
-<div class="row" style="margin-top:2%">
-    @foreach (var item in Model)
-    {
-        <div class="col-sm-3" style="margin-bottom: 2.5%">
-            <div class="card shadow-lg" style="width:100%; height: 100%;">
-                <img style="height: 50%" src="data:image/jpeg;charset=utf-8;base64, @Convert.ToBase64String(item.Foto)"
-                     alt=" @Html.DisplayFor(modelItem => item.Descripcion)" class="img img-fluid" />
-                <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Descripcion)</h5>
+    <div class="row align-content-center" style="margin-top:2%">
 
-                    <p class="card-text">
-                        @Html.DisplayNameFor(model => model.Precio):&cent; @Html.DisplayFor(model => item.Precio)
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-3" style="margin-bottom: 2.5%">
+                <div class="card shadow-lg " style="width:100%; height: 100%;">
+                    <img style="height: 50%" src="data:image/jpeg;charset=utf-8;base64, @Convert.ToBase64String(item.Foto)"
+                         alt=" @Html.DisplayFor(modelItem => item.Descripcion)" class="img img-fluid" />
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Descripcion)</h5>
 
-                    </p>
-                    <a href="@Url.Action("SaveCarrito", "Producto", new { id = item.ID})">
-                        <button type="button" class="btn btn-primary btnMant">
-                            <img src="~/Images/shopping-cart.png" style="height: 30px; width: auto; margin-right:10px" alt="Alternate Text" />Añadir al carrito
-                        </button>
-                    </a>
-                    @*@Ajax.ActionLink("Ordenar",//Texto para el usuario
-                                "ordenarProducto",//Acción a llamar
-                                "Factura",
-                                new
-                                {
-                                    ProductoId = item.ID
-                                },//Parámetros a enviar
-                                new AjaxOptions
-                                {
-                                    UpdateTargetId = "cantidadProductos",
-                                    InsertionMode = InsertionMode.Replace,
-                                    HttpMethod = "GET",
-                                }, new { @class = "btn btn-primary" }
-                                )*@
+                        <p class="card-text">
+                            @Html.DisplayNameFor(model => model.Precio): &cent;@Html.DisplayFor(model => item.Precio)
+                        </p>
+                        <div class="container">
+                            <a href="@Url.Action("SaveCarrito", "Producto", new { id = item.ID})">
+                                <button id="button" type="submit" class="btn btn-primary btnMant">
+                                    <img src="~/Images/shopping-cart.png" style="height: 30px; width: auto; margin-right:10px" alt="Alternate Text" />Añadir al carrito
+                                </button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+    </div>
+
+    <h5>Medio de pago via sinpe móvil</h5>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryajex")
+        @Scripts.Render("~/bundles/jqueryval")        
+        @Scripts.Render("~/bundles/jqueryajax")
+        @Scripts.Render("~/bundles/jqueryui")
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script type="text/javascript">
+
+            //Actualizar cantidad de libros en el carrito
+            //Cambio de cantidad en caja de texto
+            function updateCantidad(ctr) {
+                var txtCantidad = $(ctr);
+                var cantidad = txtCantidad.val();
+                var id = txtCantidad.data("productoid");
+                $.ajax({
+                    type: "GET",
+                    dataType: 'text',
+                    url: "/Factura/actualizarCantidad",
+                    data: { "id": id, "cantidad": cantidad },
+                    success: function (data) {
+                        $("#resultadoDetalle").html('');
+                        $("#resultadoDetalle").html(data);
+                        updateCantLibros();
+                    }, error: function (xhr, status, error) {
+                        console.log("Error: " + error + ", No Error: " + xhr.status);
+                    },
+                });
+            }
+            //Actualizar cantidad de libros en el menú
+            function updateCantLibros() {
+                $.ajax({
+                    type: "GET",
+                    dataType: 'text',
+                    url: "/Factura/actualizarFacturaCantidad",
+                    success: function (data) {
+                        $("#cantidadProducto").html('');
+                        $("#cantidadProducto").html(data);
+                    }, error: function (xhr, status, error) {
+                        console.log("Error: " + error + ", No Error: " + xhr.status);
+                    },
+                });
+            }
+
+
+
+            $(function () {
+                $("#button").click(function () {
+                    $("#button").addClass("onclic", 250, validate);
+                });
+
+                function validate() {
+                    setTimeout(function () {
+                        $("#button").removeClass("onclic");
+                        $("#button").addClass("validate", 450, callback);
+                    }, 2250);
+                }
+                function callback() {
+                    setTimeout(function () {
+                        $("#button").removeClass("validate");
+                    }, 1250);
+                }
+            });
+
+
+
+        </script>
     }
 </div>
 
-<h5>Medio de pago via sinpe móvil</h5>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryajex")
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-}

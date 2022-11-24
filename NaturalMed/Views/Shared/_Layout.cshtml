@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/toastr.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/PagedList.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top bg-dark text-white">
@@ -34,6 +35,7 @@
                                     <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="@Url.Action("AdminProducto", "Producto")">Productos</a>
+                                        <a class="dropdown-item" href="@Url.Action("ListaUsuario", "Usuario")">Usuarios</a>
                                     </div>
                                 </li>
                                 @*<li class="nav-item dropdown">
@@ -53,7 +55,8 @@
                                     <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="@Url.Action("ReporteOrdenes", "Reportes")">Reporte de Órdenes</a>
-                                    </div>
+                                        <a class="dropdown-item" href="@Url.Action("ReporteProductos", "Reportes")">Reporte de Productos</a>
+                                   </div>
                                 </li>
                             }
                         }
@@ -170,7 +173,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
-</html>-->
+</html>
 
 
 <style>

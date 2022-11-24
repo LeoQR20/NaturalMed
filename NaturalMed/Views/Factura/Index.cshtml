@@ -2,7 +2,12 @@
 
 @{
     ViewBag.Title = "Orden";
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
+
+
 
 @using (Html.BeginForm("Save", "Factura", FormMethod.Post))
 {
@@ -14,7 +19,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.FechaCreacion, htmlAttributes: new { @class = "col-form-label" })
+                        @Html.DisplayName("Fecha de Creación")
                         <div class="col-md-10">
                             @Html.HiddenFor(model => model.FechaCreacion, htmlAttributes: new
                        {
@@ -34,29 +39,38 @@
                         </div>
                         <hr />
                         <h3 style="margin-top: 1%">Información del Cliente</h3>
+                        <div>
+                            <label style="color: red; font-size: 12px; font-weight: 300;"> Nota: Los campos con "*" son requeridos </label>
+                        </div>
+                        <br />
                         <div class="form-group needs-validation" novalidate>
-                            @Html.LabelFor(model => model.Cliente.Nombre, htmlAttributes: new { @class = "control-label col-md-2 Nombre" })
+                            @Html.DisplayName(" Nombre del Cliente")
+                            <label style="color: red">* </label>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Cliente.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Cliente.Nombre, new { htmlAttributes = new { @class = "form-control NombreCliente" } })
                                 @Html.ValidationMessageFor(model => model.Cliente.Nombre, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Cliente.Apellidos, htmlAttributes: new { @class = "control-label col-md-2 Apellidos" })
+                            @*<label style="margin-right: 5%">Apellidos</label>*@
+                            @Html.DisplayName(" Apellidos")
+                            <label style=" color: red">* </label>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Cliente.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Cliente.Apellidos, new { htmlAttributes = new { @class = "form-control Apellidos" } })
                                 @Html.ValidationMessageFor(model => model.Cliente.Apellidos, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Cliente.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.DisplayName(" Teléfono")
+                            <label style="color: red">* </label>
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Cliente.Telefono, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Cliente.Telefono, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Cliente.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.DisplayName(" Correo Electrónico")
+                            <label style="color: red">* </label>
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Cliente.email, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Cliente.email, "", new { @class = "text-danger" })
@@ -88,12 +102,12 @@
                     <br />
                     <br />
                 </div>
-   
+
                 <br />
                 <div class="col-md-12">
                     @* Enviar mensaje y guardar orden *@
                     <!-- Submit -->
-                    <button type="submit" onclick="enviarMensaje()" class="btn btn-success btn-lg btn-primary" id="btnOrdenar" style="margin-bottom:5%; margin-top: -5%">
+                    <button type="submit" data-toggle="tooltip" data-placement="top" title="Enviar Orden" onclick="enviarMensaje()" class="btn btn-success btn-lg btn-primary" id="btnOrdenar" style="margin-bottom:5%; margin-top: -5%">
                         <i class="fab fa-whatsapp"></i> Enviar Orden
                     </button>
                 </div>
@@ -139,8 +153,9 @@
     @* Método para obtener el texto del mensaje *@
     <script>
         function enviarMensaje() {
-            var nombre = document.getElementsByClassName("Nombre").value;
-            var apellidos = document.getElementsByClassName("Apellidos").value;
+
+            var nombre = jQuery(".NombreCliente").val();
+            var apellidos = jQuery(".Apellidos").val();
             if (nombre != "" && apellidos != "") {
 
                 var texto = "*Resumen de la Orden* 📝%0A%0A" +
@@ -174,6 +189,7 @@
             var txtCantidad = $(ctr);
             var cantidad = txtCantidad.val();
             var id = txtCantidad.data("productoid");
+            alert("entra");
             $.ajax({
                 type: "GET",
                 dataType: 'text',

@@ -3,60 +3,431 @@
     ViewBag.Title = "Lista de Usuarios";
 }
 
+
 <div class="card-boddy">
     <div class="shadow p-3 mb-5 bg-body rounded">
-        <h2>Lista de Empleados</h2>
+        <h2>Lista de Usuarios</h2>
     </div>
-    <table class="table">
+    <table class="table table-hover">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
+            <th class="text-center">
+                @Html.DisplayName("Correo Electrónico")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TokenRecuperacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rol.Descripcion)
+                @Html.DisplayName("Rol")
             </th>
             <th></th>
+
         </tr>
 
         @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Nombre)
                 </td>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Estado)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TokenRecuperacion)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Rol.Descripcion)
                 </td>
                 <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Detalles", "Details", new { id = item.ID })
+                    <a class="btn" title="Editar Usuario" style="background-color: #1319c4; color: white" href="@Url.Action("Edit", "Usuario", new {id = item.ID })"><i class="fa fa-edit"></i></a>
+                    <a class="btn" title="Detalles del Usuario" style="background-color: lightgray; color: black" href="@Url.Action("AjaxFilterDetails", "Usuario", new {id = item.ID })"><i class="fa fa-info"></i></a>
+                    <a class="btn" title="Desactivar Usuario" style="background-color: #d61717; color: white" href="@Url.Action("Delete", "Usuario", new {id = item.ID })"><i class="far fa-trash-alt"></i></a>
                 </td>
+
             </tr>
         }
     </table>
-    <a href="/Usuario/Create">Agregar Usuario</a>
 </div>
+
+<input type="hidden" id="campoOculto" />
+<!-- ModalDetalles ------------------------------------------------------------------------------------------------------->
+<!--Las ventanas modas estan ocultas en el código son activadas por Javascript/JQuery-->
+<div class="modal fade" id="modalDetails" tabindex="-1" role="dialog" aria-labelledby="modalDetailsLabel" style="margin-top: 3%">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalDetailsLabel">Natural Mend</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ModalDelete -------------------------------------------------------------------------------------------------------->
+<!--Las ventanas modas estan ocultas en el código son activadas por Javascript/JQuery-->
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDetailsLabel" style="margin-top: 1%">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalDetailsLabel">Natural Mend</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ModalEdit -------------------------------------------------------------------------------------------------------->
+<!--Las ventanas modas estan ocultas en el código son activadas por Javascript/JQuery-->
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalDetailsLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalDetailsLabel">Natural Mend</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ModalCreate -------------------------------------------------------------------------------------------------------->
+<!--Las ventanas modas estan ocultas en el código son activadas por Javascript/JQuery-->
+<div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="modalDetailsLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalDetailsLabel">RB's Spare</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #toast-container > div {
+        margin-top: 29%;
+        opacity: 1;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/toastjs")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    @*Scripts para validaciones*@
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    @*Para el Toast*@
+    <script>
+
+        $(document).ready(function () {
+             console.log("Entro a JQuery")
+
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "400",
+                    "hideDuration": "1000",
+                    "timeOut": "3000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+
+                // Recibe los parámetros del Controller
+                var option = '@ViewBag.Action'
+                var message = '@ViewBag.Message'
+
+
+                if (option == 'S') {
+                    toastr.success("El registro fue guardado correctamente");
+                }
+
+
+                if (option == 'D') {
+                toastr.warning("El registro fue borrado correctamente");
+                }
+
+
+                 if (option == 'U') {
+                     toastr.success("El registro fue actualizado correctamente");
+                }
+
+                if (option == 'E') {
+                    toastr.warning("Se ha producido un error :"+message);
+            }
+
+
+            // Cambiar el color del fondo del Grid.
+            //$(".table tbody tr:even").css("background-color", "#ddd");
+        });
+
+
+
+    </script>
+
+    @*Scrip para Detalles*@
+    <script>
+        function modalDetail(p) {
+            // Almacena el Id del Empleado en el hidden field tipo variable global
+            $("#campoOculto").val(p);
+            // $("#modalDetails").val(p);
+            //var temp = $("#campoOculto").val();
+            // Invoca al Div de Modal de una vez se invoca el evento shown.bs.modal
+            // donde se invoca al Ajax con el Partial View
+            $("#modalDetails").modal();
+        }
+    </script>
+
+    <script>
+
+        // Este evento se ejecuta antes después de invocar  $("#modalDetails").modal();
+        // acá es donde se invoca por Ajax al Controller y este devuelve Partial View
+        $('#modalDetails').on('shown.bs.modal', function () {
+            
+            // permite mover
+            $('.modal-dialog').draggable();
+            // Se lee el campo oculto
+            var idEmpleado = $("#campoOculto").val();
+            
+            //var identificacionEstudiante = $("#modalDetails").val();
+            console.log(idEmpleado);
+            $.ajax({
+                type: "GET",
+                url: "/Usuario/AjaxFilterDetails",
+                // parametro por JSON
+                data: { ID: idEmpleado },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $(".modal-body").html(data);
+                },
+                // Capturar errores y mostrar un mensaje de error
+                error: function (xhr, status, error) {
+                    var mensaje = "<div class='alert alert-danger' role='alert'> Result: " +
+                        status + " " + error + " " + xhr.status + " " + xhr.statusText + "</div>";
+                    //debugger;
+                    $("#mensaje").html(mensaje).show("slow").delay(1000).hide("slow");
+                }
+            });
+
+        })
+
+        // Se ejecuta cuando se destruye el modal
+        $("#modalDetails").on('hide.bs.modal', function () {
+            // Se limpia el Div para no dejar
+            $(".modal-body").html("...");
+        });
+
+    </script>
+
+    @*Script para Delete*@
+    <script>
+        function modalDelete(p) {
+            // Almacena el Id del Empleado en el hidden field tipo variable global
+            $("#campoOculto").val(p);
+            // $("#modalDetails").val(p);
+            //var temp = $("#campoOculto").val();
+            // Invoca al Div de Modal de una vez se invoca el evento shown.bs.modal
+            // donde se invoca al Ajax con el Partial View
+            $("#modalDelete").modal();
+        }
+    </script>
+    <script>
+
+        // Este evento se ejecuta antes después de invocar  $("#modalDetails").modal();
+        // acá es donde se invoca por Ajax al Controller y este devuelve Partial View
+        $('#modalDelete').on('shown.bs.modal', function () {
+            // permite mover
+            $('.modal-dialog').draggable();
+            // Se lee el campo oculto
+            var idEmpleado = $("#campoOculto").val();
+            //var identificacionEstudiante = $("#modalDetails").val();
+            console.log(idEmpleado);
+            $.ajax({
+                type: "GET",
+                url: "/Usuario/Delete",
+                // parametro por JSON
+                data: { ID: idEmpleado },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $(".modal-body").html(data);
+                },
+                // Capturar errores y mostrar un mensaje de error
+                error: function (xhr, status, error) {
+                    var mensaje = "<div class='alert alert-danger' role='alert'> Result: " +
+                        status + " " + error + " " + xhr.status + " " + xhr.statusText + "</div>";
+                    //debugger;
+                    $("#mensaje").html(mensaje).show("slow").delay(1000).hide("slow");
+                }
+            });
+
+        })
+
+        // Se ejecuta cuando se destruye el modal
+        $("#modalDelete").on('hide.bs.modal', function () {
+            // Se limpia el Div para no dejar
+            $(".modal-body").html("...");
+        });
+
+    </script>
+
+    @*Script para Edit*@
+    <script>
+        function modalEdit(p) {
+            // Almacena el Id del Empleado en el hidden field tipo variable global
+            $("#campoOculto").val(p);
+            // $("#modalDetails").val(p);
+            //var temp = $("#campoOculto").val();
+            // Invoca al Div de Modal de una vez se invoca el evento shown.bs.modal
+            // donde se invoca al Ajax con el Partial View
+            $("#modalEdit").modal();
+        }
+    </script>
+    <script>
+
+        // Este evento se ejecuta antes después de invocar  $("#modalDetails").modal();
+        // acá es donde se invoca por Ajax al Controller y este devuelve Partial View
+        $('#modalEdit').on('shown.bs.modal', function () {
+            // permite mover
+            $('.modal-dialog').draggable();
+            // Se lee el campo oculto
+            var idEmpleado = $("#campoOculto").val();
+            //var identificacionEstudiante = $("#modalDetails").val();
+            console.log(idEmpleado);
+            $.ajax({
+                type: "GET",
+                url: "/Usuario/Edit",
+                // parametro por JSON
+                data: { id: idEmpleado },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $(".modal-body").html(data);
+
+                    //The validation plugin can't bind to the same form twice.
+                    //We need to remove existing validators
+                    $('modalEdit').removeData("validator");
+
+                    //Refresh the validators
+                    $.validator.unobtrusive.parse(document);
+                },
+                // Capturar errores y mostrar un mensaje de error
+                error: function (xhr, status, error) {
+                    var mensaje = "<div class='alert alert-danger' role='alert'> Result: " +
+                        status + " " + error + " " + xhr.status + " " + xhr.statusText + "</div>";
+                    //debugger;
+                    $("#mensaje").html(mensaje).show("slow").delay(1000).hide("slow");
+                }
+            });
+
+        })
+
+        // Se ejecuta cuando se destruye el modal
+        $("#modalEdit").on('hide.bs.modal', function () {
+            // Se limpia el Div para no dejar
+            $(".modal-body").html("...");
+        });
+
+    </script>
+
+    @*Script para Create*@
+    <script>
+        function modalCreate(p) {
+            // Almacena el Id del Empleado en el hidden field tipo variable global
+            $("#campoOculto").val(p);
+            // $("#modalDetails").val(p);
+            //var temp = $("#campoOculto").val();
+            // Invoca al Div de Modal de una vez se invoca el evento shown.bs.modal
+            // donde se invoca al Ajax con el Partial View
+            $("#modalCreate").modal();
+        }
+    </script>
+    <script>
+
+        // Este evento se ejecuta antes después de invocar  $("#modalDetails").modal();
+        // acá es donde se invoca por Ajax al Controller y este devuelve Partial View
+        $('#modalCreate').on('shown.bs.modal', function () {
+
+            // permite mover
+            $('.modal-dialog').draggable();
+            // Se lee el campo oculto
+            var idEmpleado = $("#campoOculto").val();
+            //var identificacionEstudiante = $("#modalDetails").val();
+            console.log(idEmpleado);
+            $.ajax({
+                type: "GET",
+                url: "/Usuario/Create",
+                // parametro por JSON
+                data: { ID: idEmpleado },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $(".modal-body").html(data);
+
+                    //The validation plugin can't bind to the same form twice.
+                    //We need to remove existing validators
+                    $('modalCreate').removeData("validator");
+
+                    //Refresh the validators
+                    $.validator.unobtrusive.parse(document);
+                },
+                // Capturar errores y mostrar un mensaje de error
+                error: function (xhr, status, error) {
+                    var mensaje = "<div class='alert alert-danger' role='alert'> Result: " +
+                        status + " " + error + " " + xhr.status + " " + xhr.statusText + "</div>";
+                    //debugger;
+                    $("#mensaje").html(mensaje).show("slow").delay(1000).hide("slow");
+                }
+            });
+
+        })
+
+        // Se ejecuta cuando se destruye el modal
+        $("#modalCreate").on('hide.bs.modal', function () {
+            // Se limpia el Div para no dejar
+            $(".modal-body").html("...");
+        });
+
+    </script>
+}

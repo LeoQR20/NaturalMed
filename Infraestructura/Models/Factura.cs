@@ -19,14 +19,17 @@ namespace Infraestructura.Models
         {
             this.Producto_Factura = new HashSet<Producto_Factura>();
         }
-    
+        public int PaginaActual { get; set; }
+        public int TotalItems { get; set; }
+        public int RegistroPorPagina { get; set; }
+
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }
         public decimal IVA { get; set; }
         public int IdFactura { get; set; }
         public int IdCondicion { get; set; }
-        public Nullable<System.DateTime> FechaCreacion { get; set; }
-        public Nullable<int> IDCliente { get; set; }
+        public System.DateTime FechaCreacion { get; set; }
+        public int IDCliente { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual CondicionFactura CondicionFactura { get; set; }

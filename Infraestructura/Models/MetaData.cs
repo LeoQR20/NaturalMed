@@ -95,10 +95,12 @@ namespace Infraestructura.Models
         [Display(Name = "Cliente")]
         public string IdCliente { get; set; }
 
-        [Display(Name = "Nombre Cliente")]
+        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "Por favar ingrese su {0}")]
         public string Nombre { get; set; }
 
-        [Display(Name = "Apellidos Cliente")]
+        [Display(Name = "Apellidos")]
+        [Required(ErrorMessage = "Por favar ingrese su {0}")]
         public string Apellidos{ get; set; }
 
         public string Sexo { get; set; }

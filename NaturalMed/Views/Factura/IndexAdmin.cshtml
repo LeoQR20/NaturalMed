@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Infraestructura.Models.Factura>
+﻿@using PagedList.Mvc;
+@model  PagedList.IPagedList<Infraestructura.Models.Factura>
 
 @{
     ViewBag.Title = "Ordenes";
@@ -15,14 +16,14 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.IdFactura)
+                        @Html.DisplayName("Factura")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.FechaCreacion)
+                        @Html.DisplayName("FechaCreacion")
                     </th>
 
                     <th>
-                        @Html.DisplayNameFor(model => model.IdCondicion)
+                        @Html.DisplayName("Condición")
                     </th>
                     <th>
                         @Html.Label("Acciones")
@@ -46,19 +47,28 @@
                         <td>
                             <a class="btn" style="background-color: lightgray" title="Detalles Orden" href="@Url.Action("Details", "Factura", new {id = item.IdFactura })"><i class="fa fa-info"></i></a>
                             <a class="btn btn-success" onclick="aprobar()" title="Aprobar Orden" href="@Url.Action("AprobarOrden", "Factura", new {id = item.IdFactura })"><i class="fa fa-check"></i></a>
-                            <a class="btn btn-primary" onclick="rechazar()" title="Rechazar Orden" href="@Url.Action("RechazarOrden", "Factura", new {id = item.IdFactura })"><i class="fa fa-ban"></i></a>
+                            <a class="btn btn-success" onclick="facturar()" title="Generar Factura" href="@Url.Action("FacturaElectronicaCR", "Factura", new {id = item.IdFactura })"><i class="fa fa-paper-plane"></i></a>
+                            @*<a class="btn btn-primary" onclick="rechazar()" title="Rechazar Orden" href="@Url.Action("RechazarOrden", "Factura", new {id = item.IdFactura })"><i class="fa fa-ban"></i></a>*@
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        <ul class="pagination">
+            @*<li class="page-item disabled">
+                <span class="page-link" href="@Html.PagedListPager(Model, page => Url.Action("IndexAdmin", "Factura", new { page, pageSize = ViewBag.PageSize }))">Anterior</span>
+            </li>*@
+            <li class="page-item">                
+                @Html.PagedListPager(Model, page => Url.Action("IndexAdmin", "Factura", new { page, pageSize = ViewBag.PageSize }))
+            </li>
+        </ul>        
     </div>
 </div>
 
 @* Mensajes de rechazado y aprobado *@
 <script>
-    function rechazar() {
-        swal("Información", "Orden Rechazada", "error");
+    function facturar() {
+        swal("Información", "Orden Facturada", "success");
         wait
     }
 

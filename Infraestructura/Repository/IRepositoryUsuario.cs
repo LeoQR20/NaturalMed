@@ -16,5 +16,6 @@ namespace Infraestructura.Repository
         Usuario Save(Usuario usuario);
         Usuario GetEmpleadoByToken(string token);
         Usuario VerificarUsuario(string email);
+        void DeshabilitarUsuario(int id);
     }
 }

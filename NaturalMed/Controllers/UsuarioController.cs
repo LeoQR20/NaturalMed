@@ -24,7 +24,7 @@ namespace NaturalMed.Controllers
         {
             try
             {
-                return RedirectToAction("List");
+                return RedirectToAction("ListaUsuario");
             }
             catch (Exception ex)
             {
@@ -42,19 +42,44 @@ namespace NaturalMed.Controllers
             IEnumerable<Usuario> lista = null;
             try
             {
-                IUsuario _ServiceUsuario = new ServiceUsuario();
-                lista = _ServiceUsuario.GetUsuarios();
-                ViewBag.title = "Lista Usuarios";
-                return View(lista);
+                //Log.Info("Visita");
+
+                if (!String.IsNullOrEmpty(Action))
+                {
+                    ViewBag.Action = Action;
+                }
+
+                IUsuario _ServiceEmpleado = new ServiceUsuario();
+                lista = _ServiceEmpleado.GetUsuarios();
+                Action = "";
             }
             catch (Exception ex)
             {
-                Log.Error(ex, MethodBase.GetCurrentMethod());
-                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                // Salvar el error en un archivo 
+                //Log.Error(ex, MethodBase.GetCurrentMethod());
 
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData.Keep();
                 // Redireccion a la captura del Error
                 return RedirectToAction("Default", "Error");
             }
+
+            return View(lista);
+            //try
+            //{
+            //    IUsuario _ServiceUsuario = new ServiceUsuario();
+            //    lista = _ServiceUsuario.GetUsuarios();
+            //    ViewBag.title = "Lista Usuarios";
+            //    return View(lista);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error(ex, MethodBase.GetCurrentMethod());
+            //    TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+
+            //    // Redireccion a la captura del Error
+            //    return RedirectToAction("Default", "Error");
+            //}
         }
 
         private SelectList listaUsuarios(int idUsuario = 0)
@@ -93,21 +118,23 @@ namespace NaturalMed.Controllers
                 Action = "S";
 
                 // redirigir
-                return RedirectToAction("List");
+                return RedirectToAction("ListaUsuario");
             }
             catch (Exception ex)
             {
                 // Salvar el error en un archivo 
                 //Log.Error(ex, MethodBase.GetCurrentMethod());
                 TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData["Redirect"] = "Usuario";
+                TempData["Redirect-Action"] = "List";
                 TempData.Keep();
                 // Redireccion a la captura del Error
-                return RedirectToAction("Default", "Error");
+                return RedirectToAction("Index", "Error");
             }
         }
 
 
-        //GET: Empleado/Details/    
+        //GET: Usuario/Details  
         [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult AjaxFilterDetails(int? id)
         {
@@ -119,14 +146,14 @@ namespace NaturalMed.Controllers
                 // Si va null
                 if (id == null)
                 {
-                    return RedirectToAction("List");
+                    return RedirectToAction("ListaUsuario");
                 }
 
                 usuario = _ServiceEmpleado.GetUsuarioByID(id.Value);
                 //var detalles = new List<Empleado>();
                 //detalles.Add(Empleado);
 
-                return PartialView("_PartialViewDetailsEmpleado", usuario);
+                return PartialView("_PartialViewDetailsUsuario", usuario);
             }
             catch (Exception ex)
             {
@@ -139,17 +166,7 @@ namespace NaturalMed.Controllers
             }
         }
 
-        //public ActionResult AjaxFilterDetails5(int id)
-        //{
-        //    IServiceEmpleado serviceEmpleado = new ServiceEmpleado();
-        //    Empleado empleado = serviceEmpleado.GetEmpleadoByID(id);
-
-        //    var detalles = new List<Empleado>();
-        //    detalles.Add(empleado);
-        //    return PartialView("_PartialViewDetailsEmpleado", detalles);
-        //}
-
-        // GET: Empleado/Edit/5
+        // GET: Usuario/Edit
         [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult Edit(int? id)
         {
@@ -173,7 +190,7 @@ namespace NaturalMed.Controllers
 
                 Action = "U";
 
-                return PartialView("Edit", usuario);
+                return PartialView("_EditPartialView", usuario);
             }
             catch (Exception ex)
             {
@@ -187,7 +204,7 @@ namespace NaturalMed.Controllers
         }
 
 
-        // GET: Empleado/Create
+        // GET: Usuario/Create
         [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult Create()
         {
@@ -195,12 +212,12 @@ namespace NaturalMed.Controllers
             IRol serviceRol = new ServiceRol();
             ViewBag.ListaTipos = serviceRol.GetRols();
             Usuario usuario = new Usuario();
-            return PartialView("Create", usuario);
-            //return View();
+            return PartialView("_CreatePartialView", usuario);
+            
         }
 
 
-        // GET: Empleado/Delete/5
+        // GET: Usuario/Delete
         [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult Delete(int? id)
         {
@@ -209,7 +226,7 @@ namespace NaturalMed.Controllers
                 // Si va null
                 if (id == null)
                 {
-                    return RedirectToAction("List");
+                    return RedirectToAction("ListaUsuario");
                 }
 
                 ServiceUsuario _ServiceEmpleado = new ServiceUsuario();
@@ -244,7 +261,7 @@ namespace NaturalMed.Controllers
                 }
                 _ServiceUsuario.DeleteUsuario(id.Value);
 
-                return RedirectToAction("List");
+                return RedirectToAction("ListaUsuario");
             }
             catch (Exception ex)
             {

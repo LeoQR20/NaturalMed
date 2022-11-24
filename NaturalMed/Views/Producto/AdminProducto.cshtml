@@ -8,24 +8,24 @@
 
 <div class="card-boddy">
     <div class="shadow p-3 mb-5 bg-body rounded">
-        <h2>Gestión de Productos</h2>
+        <h2 class="text-center">Gestión de Productos</h2>
 
     </div>
-    <table class="table">
+    <table class="table table-striped table-hover" >
         <tr>
             <th>
-                @Html.DisplayNameFor(Model => Model.ID)
+                Identificación
             </th>
-            <th>
+            <th class="text-center">                
                 @Html.DisplayNameFor(Model => Model.Nombre)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(Model => Model.Precio)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(Model => Model.Cantidad)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(Model => Model.Foto)
             </th>
             <th></th>
@@ -33,19 +33,19 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelitem => item.ID)
                 </td>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelitem => item.Nombre)
                 </td>
-                <td>
+                <td class="text-center">
                     &cent; @Html.DisplayFor(model => item.Precio)
                 </td>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelitem => item.Cantidad)
                 </td>
-                <td>
+                <td class="text-center">
                     <input class="zoom" type="image" src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(item.Foto)" id="ImagenActivo" style="height:150px;width:150px">
                 </td>
                 <td>

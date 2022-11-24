@@ -9,9 +9,12 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Xml;
+using PagedList;
 
 namespace NaturalMed.Controllers
 {
@@ -95,8 +98,12 @@ namespace NaturalMed.Controllers
 
         //Listado
         [CustomAuthorize((int)Roles.Administrador)]
-        public ActionResult IndexAdmin()
+        public ActionResult IndexAdmin(int? pageSize, int? page)
         {
+
+            pageSize = pageSize ?? 10;
+            page = page ?? 1;
+            ViewBag.PageSize = pageSize;
             IEnumerable<Factura> lista = null;
             if (!String.IsNullOrEmpty(Action))
             {
@@ -106,7 +113,7 @@ namespace NaturalMed.Controllers
             {
                 IFactura _ServiceOrden = new ServiceFactura();
                 lista = _ServiceOrden.GetFacturas();
-                return View(lista);
+                return View(lista.ToPagedList(page.Value, pageSize.Value));
             }
             catch (Exception ex)
             {
@@ -157,11 +164,32 @@ namespace NaturalMed.Controllers
             }
         }
 
-        public void FacturaElectronicaCR(DataSet dsDetalle)
+        public ActionResult FacturaElectronicaCR(int? id,int? pageSize, int? page)
         {
-            _dsDetalle = dsDetalle;
+            pageSize = pageSize ?? 10;
+            page = page ?? 1;
+            ViewBag.PageSize = pageSize;
+            RepositoryFactura repository = new RepositoryFactura();
+            ServiceFactura _ServiceFactura = new ServiceFactura();
+            Factura orden = null;
+
+            orden = _ServiceFactura.GetFacturaById(id.Value);
+            try
+            {
+                //Cargo la Lista Actualizada
+                IEnumerable<Factura> listaOrdenes = _ServiceFactura.GetFacturas();
+                repository.SendEmail(orden);
+
+                return View("IndexAdmin", listaOrdenes.ToPagedList(page.Value, pageSize.Value));
+            }
+            catch (Exception)
+            {
+
+            }
+            return View(orden);
 
         }
+
         private void GeneraXML(System.Xml.XmlTextWriter writer) // As System.Xml.XmlTextWriter
         {
             try
@@ -365,7 +393,7 @@ namespace NaturalMed.Controllers
                         facturaDetalle.Precio = item.Precio;
                         facturaDetalle.Cantidad = item.Cantidad;
                         factura.Producto_Factura.Add(facturaDetalle);
-                        producto = _Serviceproducto.updatePositions(item.Cantidad);
+                        producto = _Serviceproducto.updatePositions(item.ProductoId, item.Cantidad);
                     }
                 }
 
@@ -398,8 +426,11 @@ namespace NaturalMed.Controllers
             }
         }
         [CustomAuthorize((int)Roles.Administrador)]
-        public ActionResult AprobarOrden(int? id)
+        public ActionResult AprobarOrden(int? id, int? pageSize, int? page)
         {
+            pageSize = pageSize ?? 10;
+            page = page ?? 1;
+            ViewBag.PageSize = pageSize;
             RepositoryFactura repository = new RepositoryFactura();      
             IFactura _ServiceOrden = new ServiceFactura();
             Factura orden = null;
@@ -424,7 +455,7 @@ namespace NaturalMed.Controllers
                 //Cargo la Lista Actualizada
                 IEnumerable<Factura> listaOrdenes = _ServiceOrden.GetFacturas();
                 //repository.SendEmail(orden);
-                return View("IndexAdmin", listaOrdenes);
+                return View("IndexAdmin", listaOrdenes.ToPagedList(page.Value, pageSize.Value));
             }
             catch (Exception ex)
             {

@@ -37,14 +37,15 @@
                                     <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="@Url.Action("AdminProducto", "Producto")">Productos</a>
+                                        <a class="dropdown-item" href="@Url.Action("ListaUsuario", "Usuario")">Usuarios</a>
                                     </div>
                                 </li>
                                 @*<li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administración</a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="@Url.Action("List", "Empleado")">Control de Empleados</a>
-                                    </div>
-                                </li>*@
+                            <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administración</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="@Url.Action("List", "Empleado")">Control de Empleados</a>
+                            </div>
+                        </li>*@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Procesos</a>
                                     <div class="dropdown-menu">
@@ -56,6 +57,8 @@
                                     <a class="nav-link dropdown-toggle" id="menu" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="@Url.Action("ReporteOrdenes", "Reportes")">Reporte de Órdenes</a>
+                                        <a class="dropdown-item" href="@Url.Action("ReporteProductos", "Reportes")">Reporte de Productos</a>
+
                                     </div>
                                 </li>
                             }
@@ -64,6 +67,9 @@
                 }
                 <li class="nav-item">
                     <a class="nav-link " id="menu" href="@Url.Action("ClienteProducto", "Producto", new { id = "menu" })" )">Catálogo</a>
+                </li>
+                <li class="active menu__item">
+                    <a id="manual" href="~/Documento/Guia_de_Usuario_NaturalMend.pdf" title="Ayuda en línea"><i class="fa fa-info-circle" aria-hidden="true"></i> Ayuda</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -93,18 +99,19 @@
 
                                     </li>
                                 </ul>
-                            }
-                        }
-                        else
-                        {
-                            <a style="margin-top: 1%" id="menu" href="@Url.Action("Index", "Login")">
-                                Iniciar Sesión
-                                <span class="glyphicon  glyphicon-log-in " aria-hidden="true"></span>
-                            </a>
+
                         }
                     }
-                </li>
-            </ul>
+                    else
+                    {
+                        <a style="margin-top: 1%" id="menu" href="@Url.Action("Index", "Login")">
+                            Iniciar Sesión
+                            <span class="glyphicon  glyphicon-log-in " aria-hidden="true"></span>
+                        </a>
+                    }
+                    }
+                    </li>
+                </ul>
         </div>
     </nav>
     <div class="container body-content col-md-12" style="margin-left:0; margin-right:0; padding-left:0; padding-right:0;">

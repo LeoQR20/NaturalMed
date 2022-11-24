@@ -153,7 +153,7 @@ namespace Infraestructura.Repository
             }
         }
 
-        public Producto updatePositions(int Id)
+        public Producto updatePositions(int Id, int cantidad)
         {
             int retorno;
             Producto oProposal = null;
@@ -168,7 +168,7 @@ namespace Infraestructura.Repository
 
                     if (oProposal.Cantidad > 0)
                     {
-                        oProposal.Cantidad = oProposal.Cantidad - 1;
+                        oProposal.Cantidad -= cantidad;
                     }
 
                     ctx.Entry(oProposal).State = EntityState.Modified;

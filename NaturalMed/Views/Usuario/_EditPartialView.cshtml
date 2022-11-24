@@ -1,0 +1,109 @@
+﻿@model Infraestructura.Models.Usuario
+
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="margin-top:50px; margin-bottom:50px;">
+    <h2 style="margin-top:5px; margin-bottom:2px;">Editar usuario</h2>
+    <hr />
+
+    @using (Html.BeginForm("Save", "Usuario", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal form-row" >
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
+                        
+                <div class="form-group col-md-6">
+                    <label style="margin-left: 5%">Número de identificación</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
+                        @* @Html.TextBox("IdPadron", "", new { @class = "form-control" })*@
+                        @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label style="margin-left: 5%">Nombre</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>            
+                <div class="form-group col-md-6">
+                    <label style="margin-left: 5%">Correo electrónico</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>   
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label style="margin-left: 5%">Rol que va a ejercer</label>                    <label style="color: red">* </label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("IdRol", new SelectList(ViewBag.ListaTipos, "IDRol", "Descripcion"), htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.IDRole, "", new { @class = "text-danger" })
+                    </div>
+                </div>  
+            <div class="form-group ">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Actualizar" class="btn btn-success" />
+                    <button type="button" onclick="location.href='@Url.Action("Index","Usuario")'" class="btn btn-outline-success"><i class="fa fa-arrow-left"></i> Regresar</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/toastjs")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Styles.Render("~/Content/cssjqueryui")
+
+    <script src="~/Scripts/jquery-ui-1.13.1.min.js"></script>
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#IdPadron").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Usuario/GetPadron",
+                        type: "POST",
+                        dataType: "json",
+                        data: { identificacion: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Nombre + item.PrimerApellido + item.SegundoApellido, value: item.Identificacion, label1: item.Nombre, label2: item.PrimerApellido, label3: item.SegundoApellido };
+                            }))
+
+                        }
+                    })
+                },
+                select: function (event, ui) {
+
+                    // Colocar el valor
+                    $("#IdPadron").val(ui.item.value);
+                    // Coloca datos en el Label
+                    $("#Nombre").val(ui.item.label1);
+                    $("#Apellido1").val(ui.item.label2);
+                    $("#Apellido2").val(ui.item.label3);
+                    // Se sale
+                    return false;
+                }
+            });
+        })
+    </script>
+}

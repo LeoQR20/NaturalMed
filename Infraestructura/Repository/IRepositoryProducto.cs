@@ -15,6 +15,6 @@ namespace Infraestructura.Repository
         void DeleteProducto(int id);
         IEnumerable<Producto> GetProductosByNombre(string nombre);
 
-        Producto updatePositions(int Id);
+        Producto updatePositions(int Id, int cantidad);
     }
 }

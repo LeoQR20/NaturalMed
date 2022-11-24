@@ -37,10 +37,10 @@ namespace AppCore.Services
             IRepositoryProducto repository = new RepositoryProducto();
             return repository.GetProductosByNombre(nombre);
         }
-        public Producto updatePositions(int Id)
+        public Producto updatePositions(int Id, int cantidad)
         {
             IRepositoryProducto repository = new RepositoryProducto();
-            Producto oProposal = repository.updatePositions(Id);
+            Producto oProposal = repository.updatePositions(Id, cantidad);
             return oProposal;
         }
     }

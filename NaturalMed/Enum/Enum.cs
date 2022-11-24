@@ -1,1 +1,1 @@
-﻿public enum Roles { Administrador = 1, Cliente = 2}
+﻿public enum Roles { Administrador = 1, Usuario = 2}

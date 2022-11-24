@@ -1,11 +1,16 @@
 ﻿using AppCore.Services;
 using Infraestructura.Models;
+using iText.IO.Image;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 using NaturalMed.Security;
 using NaturalMed.Utils;
 using NaturalMed.ViewModels;
 using Rotativa;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 
@@ -77,15 +82,11 @@ namespace NaturalMed.Controllers
                 CustomSwitches = "--page-offset 0 --footer-right [page] --footer-font-size 10"
             };
         }
-        public ActionResult ProductoCatalogo()
+        public ActionResult ReporteProductos()
         {
-            IEnumerable<Producto> lista = null;
             try
             {
-
-                IProducto _ServiceLibro = new ServiceProducto();
-                lista = _ServiceLibro.GetProductos();
-                return View(lista);
+                return View();
             }
             catch (Exception ex)
             {
@@ -121,7 +122,5 @@ namespace NaturalMed.Controllers
                 return RedirectToAction("Default", "Error");
             }
         }
-
-
     }
 }
