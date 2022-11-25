@@ -11,6 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace Infraestructura.Repository
 {
@@ -171,16 +172,12 @@ namespace Infraestructura.Repository
         }
 
         public string HtmlBody(Factura factura)
-        {                     
-            return "<body style=\"color: black\">" +
-                    "<h1 style=\"color: black\">Estimado Cliente:\r\nAdjunto encontrará comprobante electrónico en formato pdf y " +
-                    "su correspondiente representación  en formato XML, por concepto de facturación de Natural Mend.\r\n</h1>" + "<br />" +
+        {           return "<body style=\"color: black\">" +
+                    "<h1 style=\"color: black\">Estimado Cliente:\r\nAdjunto encontrará comprobante electrónico " +
+                    ", por concepto de facturación de Natural Mend.\r\n</h1>" + "<br />" +
                     "<h2 style=\"color: black\">Detalles de la Compra:</h2>" +
                     "<li style=\"color: black\"> Fecha: " + factura.FechaCreacion + "</ li >" +
-                    "<li style=\"color: black\"> Numero de Factura: " + factura.IdFactura.ToString() + "</ li >" +
-                    //"<li style=\"color: black\"> Nombre: " + factura.Cliente.Nombre + "</ li >" +
-                    //"<li style=\"color: black\"> Apellidos: " + factura.Cliente.Apellidos + "</ li >" +
-                    //"<li style=\"color: black\"> Telefono: " + factura.Cliente.Telefono + "</ li >" +                     
+                    "<li style=\"color: black\"> Numero de Factura: " + factura.IdFactura.ToString() + "</ li >" +                   
                     "<li style=\"color: black\"> Por un Monto de: " + factura.Total + "</ li >" +
                     "<br />" +
                     "<br />" +
@@ -199,7 +196,7 @@ namespace Infraestructura.Repository
                 message.To.Add(new MailAddress(factura.Cliente.email));
                 message.Subject = factura.IdFactura + " Gracias por su compra en Natural Mend";
                 message.IsBodyHtml = true; //to make message body as html  
-                message.Body = HtmlBody(factura);
+                message.Body = HtmlBody(factura);                
                 smtp.Port = 587;
                 smtp.Host = "smtp-mail.outlook.com"; //for outlook host  
                 smtp.EnableSsl = true;
@@ -212,6 +209,6 @@ namespace Infraestructura.Repository
             {
 
             }
-            }
         }
+    }
 }

@@ -36,7 +36,7 @@
                             {
                                 @class = "form-control changeCantidad",
                         data_productoid = item.Producto.ID,
-                                onchange = "updateCantidad(this)"
+                                @readonly = "true"
                             }
                         })
                     </td>
@@ -74,7 +74,6 @@
             <table class="table table-clear">
                 <tbody>
                     <tr>
-
                         <td class="left">
                             <strong>Total</strong>
                         </td>
